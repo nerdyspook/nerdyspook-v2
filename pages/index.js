@@ -59,11 +59,11 @@ const Home = () => {
           Work
         </Heading>
         <Paragraph padding="10px">
-          I am a full-stack developer based in Bengaluru with a passion for
+          I am a frontend developer based in Bengaluru with a passion for
           building digital services/stuff I want. I have a knack for all things
           which goes from launching products, planning and designing all the way
           to solving real-life problems with code. When not online, I love
-          hanging out with my friends or reading books. I am currently working
+          hanging out with my friends or watch youtube. I am currently working
           at{' '}
           <Link href="https://applibgroup.dev/" isExternal>
             AppLib Group (HUAWEI)
@@ -86,7 +86,7 @@ const Home = () => {
         </Heading>
         <BioSection>
           <BioYear>1999</BioYear>
-          Born is West Bengal, India.
+          Born is Durgapur (West Bengal), India.
         </BioSection>
         <BioSection>
           <BioYear>2018</BioYear>
@@ -102,10 +102,11 @@ const Home = () => {
 
       <Section delay={0.6}>
         <Heading as="h3" variant="section-title">
-          I ♥
+          I <span style={{ color: 'red', fontSize: '1.35rem' }}>♥</span>
         </Heading>
         <Paragraph>
-          Art, Anime, Volleyball, Football, Sketching, Animation
+          Art, Anime, Volleyball, Football, Sketching, Animation, Trekking,
+          Music
         </Paragraph>
       </Section>
     </Container>
