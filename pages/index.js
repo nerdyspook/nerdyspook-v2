@@ -86,7 +86,7 @@ const Home = () => {
         </Heading>
         <BioSection>
           <BioYear>1999</BioYear>
-          Born is Durgapur (West Bengal), India.
+          Born in Durgapur (West Bengal), India.
         </BioSection>
         <BioSection>
           <BioYear>2018</BioYear>
