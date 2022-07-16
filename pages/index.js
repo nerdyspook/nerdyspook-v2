@@ -10,9 +10,9 @@ const Home = () => {
       <Box display={{ md: 'flex' }}>
         <Box flexGrow={1}>
           <Heading as="h2" variant="page-title">
-            NerdySpook
+            Susanto Mahato
           </Heading>
-          <p>Digital Craftzman ( Artist / Developer / Designer )</p>
+          <p>Digital Craftsman ( Developer / Designer / Artist )</p>
         </Box>
       </Box>
     </Container>
