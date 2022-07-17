@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-
 import { Box, Spinner } from '@chakra-ui/react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { loadGLTFModel } from '../libs/model'
-import { render } from 'react-dom'
 
 function easeOutCirc(x) {
   return Math.sqrt(1 - Math.pow(x - 1, 4))
@@ -23,7 +21,6 @@ const VoxelDog = () => {
       20 * Math.cos(0.2 * Math.PI)
     )
   )
-
   const [scene] = useState(new THREE.Scene())
   const [_controls, setControls] = useState()
 
@@ -32,6 +29,7 @@ const VoxelDog = () => {
     if (container && renderer) {
       const scW = container.clientWidth
       const scH = container.clientHeight
+
       renderer.setSize(scW, scH)
     }
   }, [renderer])
@@ -43,7 +41,7 @@ const VoxelDog = () => {
       const scW = container.clientWidth
       const scH = container.clientHeight
 
-      const renderer = new THREE.WebGL1Renderer({
+      const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
       })
@@ -97,7 +95,7 @@ const VoxelDog = () => {
           camera.position.x =
             p.x * Math.cos(rotSpeed) + p.z * Math.sin(rotSpeed)
           camera.position.z =
-            p.z * Math.cos(rotSpeed) + p.x * Math.sin(rotSpeed)
+            p.z * Math.cos(rotSpeed) - p.x * Math.sin(rotSpeed)
           camera.lookAt(target)
         } else {
           controls.update()
@@ -125,7 +123,7 @@ const VoxelDog = () => {
       ref={refContainer}
       className="voxel-dog"
       m="auto"
-      at={['-20px', '-60px', '-120px']}
+      mt={['-20px', '-60px', '-120px']}
       mb={['-40px', '-140px', '-200px']}
       w={[280, 480, 640]}
       h={[280, 480, 640]}
@@ -137,7 +135,7 @@ const VoxelDog = () => {
           position="absolute"
           left="50%"
           top="50%"
-          ml="calc(0px - var(--spinner-size)/2)"
+          ml="calc(0px - var(--spinner-size) / 2)"
           mt="calc(0px - var(--spinner-size))"
         />
       )}
