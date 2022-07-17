@@ -44,7 +44,7 @@ const Navbar = props => {
       w="100%"
       bg={useColorModeValue('#ffffff40', '@20202380')}
       style={{ backdropFilter: 'blur(10px)' }}
-      zIndex={1}
+      zIndex={2}
       {...props}
     >
       <Container
@@ -67,14 +67,21 @@ const Navbar = props => {
           width={{ base: 'full', md: 'auto' }}
           alignItems="center"
           flexGrow={1}
-          mt={{ base: 4, nmd: 0 }}
+          mt={{ base: 4, md: 0 }}
         >
-          <LinkItem href="/works" payh={path}>
+          <LinkItem href="/projects" path={path}>
             Projects
           </LinkItem>
-          <LinkItem href="/posts" payh={path}>
+          <LinkItem href="/blogs" path={path}>
             Blogs
           </LinkItem>
+          <Link
+            href="https://github.com/nerdyspook/nerdyspook-v2"
+            isExternal
+            p={2}
+          >
+            View Source
+          </Link>
         </Stack>
 
         <Box flex={1} align="right">
@@ -91,16 +98,17 @@ const Navbar = props => {
                 <NextLink href="/" passHref>
                   <MenuItem as={Link}>About</MenuItem>
                 </NextLink>
-                <NextLink href="/works" passHref>
+                <NextLink href="/projects" passHref>
                   <MenuItem as={Link}>Projects</MenuItem>
                 </NextLink>
-                <NextLink href="/posts" passHref>
+                <NextLink href="/blogs" passHref>
                   <MenuItem as={Link}>Blogs</MenuItem>
                 </NextLink>
 
                 <MenuItem
                   as={Link}
                   href="https://github.com/nerdyspook/nerdyspook-v2"
+                  isExternal
                 >
                   View Source
                 </MenuItem>
