@@ -10,7 +10,7 @@ const Main = ({ children, router }) => {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>NerdySpook</title>
-        {/* <link rel="icon" type="image/p" href="/images/p.png"></link> */}
+        <link rel="icon" href="/images/favicon.ico"></link>
       </Head>
       <Navbar path={router.asPath} />
       <Container maxW="container.md" pt={14}>

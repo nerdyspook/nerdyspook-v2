@@ -6,13 +6,17 @@ import {
   Image,
   useColorModeValue,
   Link,
-  Button
+  Button,
+  List,
+  ListItem,
+  Icon
 } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import Paragraph from '../components/paragraph'
 import { BioSection, BioYear } from '../components/bio'
+import { IoLogoTwitter, IoLogoLinkedin, IoLogoGithub } from 'react-icons/io5'
 
 const Home = () => {
   return (
@@ -110,6 +114,50 @@ const Home = () => {
             Art, Anime, Volleyball, Football, Sketching, Animation, Trekking,
             Music
           </Paragraph>
+        </Section>
+
+        <Section delay={0.9}>
+          <Heading as="h3" variant="section-title">
+            Connect with me on
+          </Heading>
+          <List>
+            <ListItem>
+              <Link href="https://github.com/nerdyspook" target="_blank">
+                <Button
+                  variant="ghost"
+                  colorScheme="teal"
+                  leftIcon={<Icon as={IoLogoGithub} />}
+                >
+                  @nerdyspook
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link
+                href="https://www.linkedin.com/in/susanto-mahato-761118168/"
+                target="_blank"
+              >
+                <Button
+                  variant="ghost"
+                  colorScheme="teal"
+                  leftIcon={<Icon as={IoLogoLinkedin} />}
+                >
+                  @susanto-mahato-761118168
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href="https://twitter.com/nerdyspook" target="_blank">
+                <Button
+                  variant="ghost"
+                  colorScheme="teal"
+                  leftIcon={<Icon as={IoLogoTwitter} />}
+                >
+                  @nerdyspook
+                </Button>
+              </Link>
+            </ListItem>
+          </List>
         </Section>
       </Container>
     </Layout>
