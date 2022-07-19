@@ -3,8 +3,8 @@ import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import { GridItem } from '../components/grid-item'
 
-import thumbBlogOne from '../public/images/blog1.jpg'
-import thumbBlogTwo from '../public/images/blog2.jpg'
+import thumbBlogOne from '../public/images/blogOne.jpg'
+import thumbBlogTwo from '../public/images/blogTwo.jpg'
 
 const Blogs = () => (
   <Layout title="Blogs">
