@@ -10,7 +10,10 @@ export const GridItem = ({ children, href, title, thumbnail }) => (
         src={thumbnail}
         alt={title}
         className="grid-item-thumbnail"
-        placeholder="blur"
+        // placeholder="blur"
+        // layout="fill"
+        height={250}
+        width={500}
         loading="lazy"
       />
       <LinkOverlay href={href} target="_blank">
