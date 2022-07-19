@@ -2,7 +2,7 @@ import { Container, COntainer, Heading, SimpleGrid } from '@chakra-ui/react'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import { GridItem } from '../components/grid-item'
-import thumbVolt from '../public/images/volt-home.jpg'
+
 import thumbBlogOne from '../public/images/blogOne.jpg'
 import thumbBlogTwo from '../public/images/blogTwo.jpg'
 
