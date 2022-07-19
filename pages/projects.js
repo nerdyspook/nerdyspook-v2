@@ -14,7 +14,7 @@ const Projects = () => {
         </Heading>
         <SimpleGrid columns={[1, 1, 2]} gap={6}>
           <Section>
-            <WorkGridItem id="ecommerce" title="Volt" thumbnail={thumbVolt}>
+            <WorkGridItem id="volt" title="Volt" thumbnail={thumbVolt}>
               An Ecommerce app for shoes.
             </WorkGridItem>
           </Section>
