@@ -16,12 +16,12 @@ const Blogs = () => (
         <SimpleGrid columns={[1, 2, 2]} gap={6}>
           <GridItem
             title="Semantic Git Commit messages which everyone should follow!"
-            thumbnail={thumbBlogTwo}
+            thumbnail={'/images/blogTwo.jpg'}
             href="https://nerdyspook.hashnode.dev/semantic-git-commit-messages-which-everyone-should-follow"
           />
           <GridItem
             title="CSS Pseudo-elements"
-            thumbnail={thumbBlogOne}
+            thumbnail={'/images/blogOne.jpg'}
             href="https://nerdyspook.hashnode.dev/css-pseudo-elements"
           />
         </SimpleGrid>

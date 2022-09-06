@@ -14,7 +14,11 @@ const Projects = () => {
         </Heading>
         <SimpleGrid columns={[1, 1, 2]} gap={6}>
           <Section>
-            <WorkGridItem id="volt" title="Volt" thumbnail={thumbVolt}>
+            <WorkGridItem
+              id="volt"
+              title="Volt"
+              thumbnail={'/images/volt-home.jpg'}
+            >
               An Ecommerce app for shoes.
             </WorkGridItem>
           </Section>
@@ -22,7 +26,7 @@ const Projects = () => {
             <WorkGridItem
               id="frontend-prep"
               title="Frontend-Prep"
-              thumbnail={thumbFrontendPrep}
+              thumbnail={'/images/prep-home.jpg'}
             >
               A quiz app to test your knowledge in frontend technologies.
             </WorkGridItem>
