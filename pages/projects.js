@@ -75,7 +75,7 @@ const Projects = () => {
                     width={500}
                     loading="lazy"
                   />
-                  <LinkOverlay href={`/projects/volt`}>
+                  <LinkOverlay href={`/projects/frontend-prep`}>
                     <Text mt={2} fontSize={20}>
                       Frontend-Prep
                     </Text>
@@ -83,6 +83,80 @@ const Projects = () => {
                   <Text fontSize={14}>
                     A quiz app to test your knowledge in frontend technologies.
                   </Text>
+                </LinkBox>
+              </NextLink>
+            </Box>
+          </Section>
+
+          <Section>
+            <Box w="100%" align="center">
+              <NextLink href={`/projects/kal-ui`}>
+                <LinkBox cursor="pointer">
+                  <Image
+                    src="/images/kal-ui-home.png"
+                    alt="Kal-UI Component Library"
+                    className="grid-item-thumbnail"
+                    // placeholder="blur"
+                    height={250}
+                    width={500}
+                    loading="lazy"
+                  />
+                  <LinkOverlay href={`/projects/kal-ui`}>
+                    <Text mt={2} fontSize={20}>
+                      Kal-UI Component Library
+                    </Text>
+                  </LinkOverlay>
+                  <Text fontSize={14}>
+                    A Component Library to build UI faster.
+                  </Text>
+                </LinkBox>
+              </NextLink>
+            </Box>
+          </Section>
+
+          <Section>
+            <Box w="100%" align="center">
+              <NextLink href={`/projects/revisit`}>
+                <LinkBox cursor="pointer">
+                  <Image
+                    src="/images/revisit-home.png"
+                    alt="Revisit Video Library"
+                    className="grid-item-thumbnail"
+                    // placeholder="blur"
+                    height={250}
+                    width={500}
+                    loading="lazy"
+                  />
+                  <LinkOverlay href={`/projects/revisit`}>
+                    <Text mt={2} fontSize={20}>
+                      Revisit Video Library
+                    </Text>
+                  </LinkOverlay>
+                  <Text fontSize={14}>A Video Library for Hodophiles.</Text>
+                </LinkBox>
+              </NextLink>
+            </Box>
+          </Section>
+
+          <Section>
+            <Box w="100%" align="center">
+              <NextLink href={`/projects/noter`}>
+                <LinkBox cursor="pointer">
+                  <Image
+                    src="/images/noter-home.png"
+                    alt="Noter - Note Taking App"
+                    className="grid-item-thumbnail"
+                    // placeholder="blur"
+                    height={250}
+                    width={500}
+                    loading="lazy"
+                  />
+                  <LinkOverlay href={`/projects/noter`}>
+                    <Text mt={2} fontSize={20}>
+                      Noter
+                    </Text>
+                  </LinkOverlay>
+                  <Text fontSize={14}>A Note Taking App.</Text>
                 </LinkBox>
               </NextLink>
             </Box>
