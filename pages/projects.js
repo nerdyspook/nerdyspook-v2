@@ -12,7 +12,6 @@ import Image from 'next/image'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 
-
 const Projects = () => {
   return (
     <Layout>
@@ -22,14 +21,6 @@ const Projects = () => {
         </Heading>
         <SimpleGrid columns={[1, 1, 2]} gap={6}>
           <Section>
-            {/* <WorkGridItem
-              id="volt"
-              title="Volt"
-              thumbnail={'/images/volt-home.jpg'}
-            >
-              An Ecommerce app for shoes.
-            </WorkGridItem> */}
-
             <Box w="100%" align="center">
               <NextLink href={`/projects/volt`}>
                 <LinkBox cursor="pointer">
@@ -37,7 +28,6 @@ const Projects = () => {
                     src="/images/volt-home.png"
                     alt="Volt"
                     className="grid-item-thumbnail"
-                    // placeholder="blur"
                     height={250}
                     width={500}
                     loading="lazy"
@@ -53,14 +43,6 @@ const Projects = () => {
             </Box>
           </Section>
           <Section>
-            {/* <WorkGridItem
-              id="frontend-prep"
-              title="Frontend-Prep"
-              thumbnail={'/images/prep-home.png'}
-            >
-              A quiz app to test your knowledge in frontend technologies.
-            </WorkGridItem> */}
-
             <Box w="100%" align="center">
               <NextLink href={`/projects/frontend-prep`}>
                 <LinkBox cursor="pointer">
@@ -68,7 +50,6 @@ const Projects = () => {
                     src="/images/prep-home.png"
                     alt="Frontend-Prep"
                     className="grid-item-thumbnail"
-                    // placeholder="blur"
                     height={250}
                     width={500}
                     loading="lazy"
@@ -94,7 +75,6 @@ const Projects = () => {
                     src="/images/kal-ui-home.png"
                     alt="Kal-UI Component Library"
                     className="grid-item-thumbnail"
-                    // placeholder="blur"
                     height={250}
                     width={500}
                     loading="lazy"
@@ -120,7 +100,6 @@ const Projects = () => {
                     src="/images/revisit-home.png"
                     alt="Revisit Video Library"
                     className="grid-item-thumbnail"
-                    // placeholder="blur"
                     height={250}
                     width={500}
                     loading="lazy"
@@ -144,7 +123,6 @@ const Projects = () => {
                     src="/images/noter-home.png"
                     alt="Noter - Note Taking App"
                     className="grid-item-thumbnail"
-                    // placeholder="blur"
                     height={250}
                     width={500}
                     loading="lazy"
