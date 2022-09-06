@@ -32,11 +32,9 @@ const Blogs = () => (
           <Box w="100%" align="center">
             <LinkBox cursor="pointer">
               <Image
-                src="/images/blogTwo.jpg"
+                src="/images/blogTwo.png"
                 alt="Semantic Git Commit messages which everyone should follow!"
                 className="grid-item-thumbnail"
-                // placeholder="blur"
-                // layout="fill"
                 height={250}
                 width={500}
                 loading="lazy"
@@ -49,17 +47,33 @@ const Blogs = () => (
                   Semantic Git Commit messages which everyone should follow!
                 </Text>
               </LinkOverlay>
-              {/* <Text fontSize={14}>
-                Semantic Git Commit messages which everyone should follow!
-              </Text> */}
             </LinkBox>
           </Box>
 
-          <GridItem
+          {/* <GridItem
             title="CSS Pseudo-elements"
             thumbnail={'/images/blogOne.jpg'}
             href="https://nerdyspook.hashnode.dev/css-pseudo-elements"
-          />
+          /> */}
+
+          <Box w="100%" align="center">
+            <LinkBox cursor="pointer">
+              <Image
+                src="/images/blogOne.png"
+                alt="CSS Pseudo-elements"
+                className="grid-item-thumbnail"
+                height={250}
+                width={500}
+                loading="lazy"
+              />
+              <LinkOverlay
+                href="https://nerdyspook.hashnode.dev/css-pseudo-elements"
+                target="_blank"
+              >
+                <Text mt={2}>CSS Pseudo-elements</Text>
+              </LinkOverlay>
+            </LinkBox>
+          </Box>
         </SimpleGrid>
       </Section>
     </Container>
