@@ -1,10 +1,19 @@
-import { Container, Box, Heading, SimpleGrid, Divider } from '@chakra-ui/react'
+import {
+  Container,
+  Box,
+  Heading,
+  SimpleGrid,
+  Text,
+  LinkBox,
+  LinkOverlay
+} from '@chakra-ui/react'
+import NextLink from 'next/link'
+import Image from 'next/image'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 import { WorkGridItem } from '../components/grid-item'
-
-import thumbVolt from '../public/images/volt-home.png'
-import thumbFrontendPrep from '../public/images/prep-home.png'
+// import thumbVolt from '../public/images/volt-home.png'
+// import thumbFrontendPrep from '../public/images/prep-home.png'
 
 const Projects = () => {
   return (
@@ -15,22 +24,68 @@ const Projects = () => {
         </Heading>
         <SimpleGrid columns={[1, 1, 2]} gap={6}>
           <Section>
-            <WorkGridItem
+            {/* <WorkGridItem
               id="volt"
               title="Volt"
               thumbnail={'/images/volt-home.jpg'}
             >
               An Ecommerce app for shoes.
-            </WorkGridItem>
+            </WorkGridItem> */}
+
+            <Box w="100%" align="center">
+              <NextLink href={`/projects/volt`}>
+                <LinkBox cursor="pointer">
+                  <Image
+                    src="/images/volt-home.png"
+                    alt="Volt"
+                    className="grid-item-thumbnail"
+                    // placeholder="blur"
+                    height={250}
+                    width={500}
+                    loading="lazy"
+                  />
+                  <LinkOverlay href={`/projects/volt`}>
+                    <Text mt={2} fontSize={20}>
+                      Volt
+                    </Text>
+                  </LinkOverlay>
+                  <Text fontSize={14}>An Ecommerce app for shoes.</Text>
+                </LinkBox>
+              </NextLink>
+            </Box>
           </Section>
           <Section>
-            <WorkGridItem
+            {/* <WorkGridItem
               id="frontend-prep"
               title="Frontend-Prep"
-              thumbnail={'/images/prep-home.jpg'}
+              thumbnail={'/images/prep-home.png'}
             >
               A quiz app to test your knowledge in frontend technologies.
-            </WorkGridItem>
+            </WorkGridItem> */}
+
+            <Box w="100%" align="center">
+              <NextLink href={`/projects/frontend-prep`}>
+                <LinkBox cursor="pointer">
+                  <Image
+                    src="/images/prep-home.png"
+                    alt="Frontend-Prep"
+                    className="grid-item-thumbnail"
+                    // placeholder="blur"
+                    height={250}
+                    width={500}
+                    loading="lazy"
+                  />
+                  <LinkOverlay href={`/projects/volt`}>
+                    <Text mt={2} fontSize={20}>
+                      Frontend-Prep
+                    </Text>
+                  </LinkOverlay>
+                  <Text fontSize={14}>
+                    A quiz app to test your knowledge in frontend technologies.
+                  </Text>
+                </LinkBox>
+              </NextLink>
+            </Box>
           </Section>
         </SimpleGrid>
       </Container>
