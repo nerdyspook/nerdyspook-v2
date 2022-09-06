@@ -3,8 +3,8 @@ import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import { GridItem } from '../components/grid-item'
 
-// import thumbBlogOne from '../public/images/blogOne.jpg'
-// import thumbBlogTwo from '../public/images/blogTwo.jpg'
+import thumbBlogOne from '../public/images/blogOne.jpg'
+import thumbBlogTwo from '../public/images/blogTwo.jpg'
 
 const Blogs = () => (
   <Layout title="Blogs">
@@ -16,12 +16,12 @@ const Blogs = () => (
         <SimpleGrid columns={[1, 2, 2]} gap={6}>
           <GridItem
             title="Semantic Git Commit messages which everyone should follow!"
-            thumbnail={'/images/blogTwo.jpg'}
+            thumbnail={thumbBlogTwo}
             href="https://nerdyspook.hashnode.dev/semantic-git-commit-messages-which-everyone-should-follow"
           />
           <GridItem
             title="CSS Pseudo-elements"
-            thumbnail={'/images/blogOne.jpg'}
+            thumbnail={thumbBlogOne}
             href="https://nerdyspook.hashnode.dev/css-pseudo-elements"
           />
         </SimpleGrid>
