@@ -1,4 +1,13 @@
-import { Container, COntainer, Heading, SimpleGrid } from '@chakra-ui/react'
+import {
+  Container,
+  Heading,
+  SimpleGrid,
+  Box,
+  Text,
+  LinkBox,
+  LinkOverlay
+} from '@chakra-ui/react'
+import Image from 'next/image'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import { GridItem } from '../components/grid-item'
@@ -32,14 +41,17 @@ const Blogs = () => (
                 width={500}
                 loading="lazy"
               />
-              <LinkOverlay href={href} target="_blank">
+              <LinkOverlay
+                href="https://nerdyspook.hashnode.dev/semantic-git-commit-messages-which-everyone-should-follow"
+                target="_blank"
+              >
                 <Text mt={2}>
                   Semantic Git Commit messages which everyone should follow!
                 </Text>
               </LinkOverlay>
-              <Text fontSize={14}>
+              {/* <Text fontSize={14}>
                 Semantic Git Commit messages which everyone should follow!
-              </Text>
+              </Text> */}
             </LinkBox>
           </Box>
 
