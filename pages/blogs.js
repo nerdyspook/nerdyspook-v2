@@ -10,10 +10,7 @@ import {
 import Image from 'next/image'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
-import { GridItem } from '../components/grid-item'
 
-import thumbBlogOne from '../public/images/blogOne.png'
-import thumbBlogTwo from '../public/images/blogTwo.png'
 
 const Blogs = () => (
   <Layout title="Blogs">

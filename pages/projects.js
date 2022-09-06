@@ -11,9 +11,7 @@ import NextLink from 'next/link'
 import Image from 'next/image'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
-import { WorkGridItem } from '../components/grid-item'
-// import thumbVolt from '../public/images/volt-home.png'
-// import thumbFrontendPrep from '../public/images/prep-home.png'
+
 
 const Projects = () => {
   return (
