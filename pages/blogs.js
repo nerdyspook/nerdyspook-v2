@@ -10,10 +10,6 @@ import {
 import Image from 'next/image'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
-import { GridItem } from '../components/grid-item'
-
-import thumbBlogOne from '../public/images/blogOne.png'
-import thumbBlogTwo from '../public/images/blogTwo.png'
 
 const Blogs = () => (
   <Layout title="Blogs">
@@ -23,12 +19,6 @@ const Blogs = () => (
       </Heading>
       <Section delay={0.1}>
         <SimpleGrid columns={[1, 2, 2]} gap={6}>
-          {/* <GridItem
-            title="Semantic Git Commit messages which everyone should follow!"
-            thumbnail={'/images/blogTwo.jpg'}
-            href="https://nerdyspook.hashnode.dev/semantic-git-commit-messages-which-everyone-should-follow"
-          /> */}
-
           <Box w="100%" align="center">
             <LinkBox cursor="pointer">
               <Image
@@ -49,12 +39,6 @@ const Blogs = () => (
               </LinkOverlay>
             </LinkBox>
           </Box>
-
-          {/* <GridItem
-            title="CSS Pseudo-elements"
-            thumbnail={'/images/blogOne.jpg'}
-            href="https://nerdyspook.hashnode.dev/css-pseudo-elements"
-          /> */}
 
           <Box w="100%" align="center">
             <LinkBox cursor="pointer">

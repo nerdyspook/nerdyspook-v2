@@ -128,7 +128,7 @@ const Home = () => {
                   colorScheme="teal"
                   leftIcon={<Icon as={IoLogoGithub} />}
                 >
-                  @nerdyspook
+                  @nerdyspook101
                 </Button>
               </Link>
             </ListItem>
