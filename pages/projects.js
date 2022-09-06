@@ -12,6 +12,7 @@ import Image from 'next/image'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 
+
 const Projects = () => {
   return (
     <Layout>

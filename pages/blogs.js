@@ -11,6 +11,7 @@ import Image from 'next/image'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
 
+
 const Blogs = () => (
   <Layout title="Blogs">
     <Container>
