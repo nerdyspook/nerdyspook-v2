@@ -2,8 +2,9 @@ import { Container, Box, Heading, SimpleGrid, Divider } from '@chakra-ui/react'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 import { WorkGridItem } from '../components/grid-item'
-// import thumbVolt from '../public/images/volt-home.jpg'
-// import thumbFrontendPrep from '../public/images/prep-home.jpg'
+
+import thumbVolt from '../public/images/volt-home.png'
+import thumbFrontendPrep from '../public/images/prep-home.png'
 
 const Projects = () => {
   return (
