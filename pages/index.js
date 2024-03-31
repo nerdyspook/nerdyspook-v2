@@ -71,10 +71,10 @@ const Home = () => {
             all the way to solving real-life problems with code. When not
             online, I love hanging out with my friends or watch youtube. I am
             currently working at{' '}
-            <Link href="https://applibgroup.dev/" isExternal>
-              AppLib Group (HUAWEI)
+            <Link href="https://mydukaan.io/" isExternal>
+              Dukaan
             </Link>{' '}
-            as an intern.
+            as an Frontend developer.
           </Paragraph>
 
           <Box align="center" my={4}>
@@ -103,6 +103,10 @@ const Home = () => {
             <BioYear>2022</BioYear>
             Completed Bachelor&apos;s in Engineering (Computer Science
             Engineering) at Acharya Institute of Technology.
+          </BioSection>
+          <BioSection>
+            <BioYear>2023</BioYear>
+            Developed, maintained and shipped mobile and web applications at Dukaan. 
           </BioSection>
         </Section>
 
@@ -147,7 +151,7 @@ const Home = () => {
               </Link>
             </ListItem>
             <ListItem>
-              <Link href="https://twitter.com/nerdyspook" target="_blank">
+              <Link href="https://twitter.com/nerdyspook101" target="_blank">
                 <Button
                   variant="ghost"
                   colorScheme="teal"
