@@ -128,7 +128,7 @@ const Home = () => {
                   colorScheme="teal"
                   leftIcon={<Icon as={IoLogoGithub} />}
                 >
-                  @nerdyspook101
+                  @nerdyspook
                 </Button>
               </Link>
             </ListItem>
@@ -153,7 +153,7 @@ const Home = () => {
                   colorScheme="teal"
                   leftIcon={<Icon as={IoLogoTwitter} />}
                 >
-                  @nerdyspook
+                  @nerdyspook101
                 </Button>
               </Link>
             </ListItem>
