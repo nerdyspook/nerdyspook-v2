@@ -241,6 +241,10 @@ const Home = () => {
             Completed Bachelor&apos;s in Engineering (Computer Science
             Engineering) at Acharya Institute of Technology.
           </BioSection>
+          <BioSection>
+            <BioYear>2023</BioYear>
+            Developed, maintained and shipped mobile and web applications at Dukaan. 
+          </BioSection>
         </Section>
 
         <Section delay={0.6}>
