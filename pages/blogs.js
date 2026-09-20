@@ -12,9 +12,9 @@ import Layout from '../components/layouts/article'
 import Section from '../components/section'
 
 const Blogs = () => (
-  <Layout title="Blogs">
+  <Layout>
     <Container>
-      <Heading as="h3" fontSize={20} mb={4}>
+      <Heading as="h1" fontSize={20} mb={4}>
         Blogs
       </Heading>
       <Section delay={0.1}>
@@ -27,6 +27,8 @@ const Blogs = () => (
                 className="grid-item-thumbnail"
                 height={250}
                 width={500}
+                sizes="(min-width: 480px) 240px, 100vw"
+                style={{ width: '100%', height: 'auto' }}
                 loading="lazy"
               />
               <LinkOverlay
@@ -48,6 +50,8 @@ const Blogs = () => (
                 className="grid-item-thumbnail"
                 height={250}
                 width={500}
+                sizes="(min-width: 480px) 240px, 100vw"
+                style={{ width: '100%', height: 'auto' }}
                 loading="lazy"
               />
               <LinkOverlay

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+ <rect width="1200" height="630" fill="#202023"/>
+ <path d="M0 629H1200" stroke="#88ccca" stroke-width="10"/>
+ <g font-family="Arial, Helvetica, sans-serif">
+ <g transform="translate(69 53) scale(.28)"><g fill="#88ccca"><ellipse cx="30" cy="36" rx="9" ry="12" transform="rotate(-28 30 36)"/><ellipse cx="51" cy="25" rx="9" ry="12" transform="rotate(-9 51 25)"/><ellipse cx="75" cy="25" rx="9" ry="12" transform="rotate(9 75 25)"/><ellipse cx="97" cy="36" rx="9" ry="12" transform="rotate(28 97 36)"/><path d="M64 49c-12 0-17 13-27 22-8 8-11 16-6 23 5 8 14 8 23 5 7-3 13-3 20 0 9 3 18 3 23-5 5-7 2-15-6-23-10-9-15-22-27-22Z"/></g></g>
+ <text x="117" y="83" font-size="25" font-weight="700" fill="#f0e7db">NerdySpook</text>
+ <text x="74" y="177" font-size="15" font-weight="700" letter-spacing="3.8" fill="#88ccca">FRONTEND ENGINEER</text>
+ <text x="68" y="277" font-size="88" font-weight="700" letter-spacing="-4" fill="#f0e7db">Susanto</text>
+ <text x="68" y="375" font-size="88" font-weight="700" letter-spacing="-4" fill="#f0e7db">Mahato.</text>
+ <text x="74" y="435" font-size="25" fill="#b9b7b5">Design. Build. Refine.</text>
+ <path d="M74 505H1126" stroke="#49494b"/>
+ <text x="74" y="557" font-size="18" fill="#b9b7b5">Bengaluru, India</text>
+ </g>
+ <rect x="829" y="177" width="258" height="258" rx="70" fill="#282e2f" transform="rotate(-8 958 306)"/>
+ <rect x="829" y="177" width="258" height="258" rx="70" fill="none" stroke="#88ccca" stroke-opacity=".28" transform="rotate(7 958 306)"/>
+ <g transform="translate(854 209) scale(1.63)"><g fill="#88ccca"><ellipse cx="30" cy="36" rx="9" ry="12" transform="rotate(-28 30 36)"/><ellipse cx="51" cy="25" rx="9" ry="12" transform="rotate(-9 51 25)"/><ellipse cx="75" cy="25" rx="9" ry="12" transform="rotate(9 75 25)"/><ellipse cx="97" cy="36" rx="9" ry="12" transform="rotate(28 97 36)"/><path d="M64 49c-12 0-17 13-27 22-8 8-11 16-6 23 5 8 14 8 23 5 7-3 13-3 20 0 9 3 18 3 23-5 5-7 2-15-6-23-10-9-15-22-27-22Z"/></g></g>
+ </svg>

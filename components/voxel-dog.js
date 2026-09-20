@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Box, Spinner } from '@chakra-ui/react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -11,33 +11,19 @@ function easeOutCirc(x) {
 const VoxelDog = () => {
   const refContainer = useRef()
   const [loading, setLoading] = useState(true)
-  const [renderer, setRenderer] = useState()
-  const [_camera, setCamera] = useState()
-  const [target] = useState(new THREE.Vector3(-0.5, 1.2, 0))
-  const [initialCameraPosition] = useState(
-    new THREE.Vector3(
-      20 * Math.sin(0.2 * Math.PI),
-      10,
-      20 * Math.cos(0.2 * Math.PI)
-    )
-  )
-  const [scene] = useState(new THREE.Scene())
-  const [_controls, setControls] = useState()
-
-  const handleWindowResize = useCallback(() => {
-    const { current: container } = refContainer
-    if (container && renderer) {
-      const scW = container.clientWidth
-      const scH = container.clientHeight
-
-      renderer.setSize(scW, scH)
-    }
-  }, [renderer])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const { current: container } = refContainer
-    if (container && !renderer) {
+    if (container) {
+      // React 18 Strict Mode runs setup/cleanup twice in development.
+      // Keep each renderer, scene and animation loop owned by this effect.
+      let disposed = false
+      const scene = new THREE.Scene()
+      const target = new THREE.Vector3(-0.5, 1.2, 0)
+      const initialCameraPosition = new THREE.Vector3(
+        20 * Math.sin(0.2 * Math.PI),
+        10,
+        20 * Math.cos(0.2 * Math.PI)
+      )
       const scW = container.clientWidth
       const scH = container.clientHeight
 
@@ -49,7 +35,6 @@ const VoxelDog = () => {
       renderer.setSize(scW, scH)
       renderer.outputEncoding = THREE.sRGBEncoding
       container.appendChild(renderer.domElement)
-      setRenderer(renderer)
 
       const scale = scH * 0.005 + 4.8
       const camera = new THREE.OrthographicCamera(
@@ -62,7 +47,6 @@ const VoxelDog = () => {
       )
       camera.position.copy(initialCameraPosition)
       camera.lookAt(target)
-      setCamera(camera)
 
       const ambientLight = new THREE.AmbientLight(0xcccccc, 1)
       scene.add(ambientLight)
@@ -70,19 +54,11 @@ const VoxelDog = () => {
       const controls = new OrbitControls(camera, renderer.domElement)
       controls.autoRotate = true
       controls.target = target
-      setControls(controls)
-
-      loadGLTFModel(scene, '/dog.glb', {
-        receiveShadow: false,
-        castShadow: false
-      }).then(() => {
-        animate()
-        setLoading(false)
-      })
 
       let req = null
       let frame = 0
       const animate = () => {
+        if (disposed) return
         req = requestAnimationFrame(animate)
 
         frame = frame <= 100 ? frame + 1 : frame
@@ -104,19 +80,57 @@ const VoxelDog = () => {
         renderer.render(scene, camera)
       }
 
+      const disposeScene = () => {
+        scene.traverse(object => {
+          object.geometry?.dispose()
+          const materials = Array.isArray(object.material)
+            ? object.material
+            : [object.material]
+          materials.filter(Boolean).forEach(material => {
+            Object.values(material).forEach(value => {
+              if (value?.isTexture) value.dispose()
+            })
+            material.dispose()
+          })
+        })
+        scene.clear()
+      }
+
+      loadGLTFModel(scene, '/dog.glb', {
+        receiveShadow: false,
+        castShadow: false
+      })
+        .then(() => {
+          if (disposed) {
+            disposeScene()
+            return
+          }
+          animate()
+          setLoading(false)
+        })
+        .catch(error => {
+          if (!disposed) {
+            console.error('Unable to load the dog model:', error)
+            setLoading(false)
+          }
+        })
+
+      const handleWindowResize = () => {
+        renderer.setSize(container.clientWidth, container.clientHeight)
+      }
+      window.addEventListener('resize', handleWindowResize)
+
       return () => {
+        disposed = true
         cancelAnimationFrame(req)
+        window.removeEventListener('resize', handleWindowResize)
+        controls.dispose()
+        disposeScene()
         renderer.dispose()
+        renderer.domElement.remove()
       }
     }
   }, [])
-
-  useEffect(() => {
-    window.addEventListener('resize', handleWindowResize, false)
-    return () => {
-      window.removeEventListener('resize', handleWindowResize, false)
-    }
-  }, [renderer, handleWindowResize])
 
   return (
     <Box

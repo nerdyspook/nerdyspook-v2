@@ -44,5 +44,12 @@ const config = {
   useSystemColorMode: true
 }
 
-const theme = extendTheme({ config, styles, components, fonts, colors })
+// Shared maximum width for the page, navigation, and footer.
+const sizes = {
+  container: {
+    content: '1000px'
+  }
+}
+
+const theme = extendTheme({ config, styles, components, fonts, colors, sizes })
 export default theme

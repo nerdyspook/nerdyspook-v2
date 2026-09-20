@@ -6,7 +6,7 @@ import Layout from '../../components/layouts/article'
 
 const Project = () => {
   return (
-    <Layout title="Volt">
+    <Layout>
       <Container>
         <Title>
           Volt <Badge>2022</Badge>
@@ -25,7 +25,7 @@ const Project = () => {
 
           <ListItem>
             <Meta>Browsers</Meta>
-            <span>Chrome, FIrefox, Safari, Microsoft Edge</span>
+            <span>Chrome, Firefox, Safari, Microsoft Edge</span>
           </ListItem>
 
           <ListItem>
@@ -36,7 +36,10 @@ const Project = () => {
           </ListItem>
         </List>
 
-        <ProjectImage src="/images/volt-home.jpg" alt="volt home page" />
+        <ProjectImage
+          src="/images/volt-home.png"
+          alt="Volt shoe ecommerce home page"
+        />
       </Container>
     </Layout>
   )
