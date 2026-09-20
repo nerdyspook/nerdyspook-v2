@@ -1,6 +1,7 @@
 const { siteUrl, defaultUrl } = require('./site.config')
 
 module.exports = {
+  agentRules: false,
   reactStrictMode: true,
   async redirects() {
     // This activates only after the custom domain is configured and redeployed.
