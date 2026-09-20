@@ -4,6 +4,7 @@ import Fonts from '../components/fonts'
 import theme from '../libs/theme'
 import { AnimatePresence } from 'framer-motion'
 import { MotionPreferencesProvider } from '../components/motion-preferences'
+import { Analytics } from '@vercel/analytics/next'
 
 const Website = ({ Component, pageProps, router }) => {
   return (
@@ -16,6 +17,7 @@ const Website = ({ Component, pageProps, router }) => {
           </AnimatePresence>
         </Layout>
       </MotionPreferencesProvider>
+      <Analytics />
     </ChakraProvider>
   )
 }
