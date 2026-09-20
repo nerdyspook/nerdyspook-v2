@@ -19,3 +19,5 @@ Outside of code, I’m into sketching, anime, volleyball, and trekking.
 [LinkedIn](https://www.linkedin.com/in/susanto-mahato-761118168/) ·
 [Email me](mailto:sushantomahato1@gmail.com) ·
 [View résumé](https://drive.google.com/file/d/1AVk5FunMJmdgu3D_80jmpgepJFqGOOg5/view?usp=sharing)
+
+Development setup and commands: [CONTRIBUTING.md](CONTRIBUTING.md).
