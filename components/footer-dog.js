@@ -1,6 +1,8 @@
+import { useReducedMotionPreference } from './motion-preferences'
 import { useEffect, useRef, useState } from 'react'
-import { Box, Image, VisuallyHidden, useColorModeValue } from '@chakra-ui/react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Box, VisuallyHidden, useColorModeValue } from '@chakra-ui/react'
+import Image from 'next/image'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   DOG_GREETING_DURATION,
   DOG_SIZE,
@@ -11,7 +13,8 @@ import {
 } from '../libs/footer-dog'
 
 const FooterDog = () => {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
+  const reduceMotionRef = useRef(reduceMotion)
   const canvasRef = useRef(null)
   const bubbleRef = useRef(null)
   const controllerRef = useRef(null)
@@ -23,11 +26,16 @@ const FooterDog = () => {
   const message = speaking ? getDogMessage(clicks) : ''
 
   useEffect(() => {
+    reduceMotionRef.current = reduceMotion
+    controllerRef.current?.sync()
+  }, [reduceMotion])
+
+  useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     if (!context) return
     const sheet = new window.Image()
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let requested = false
     let width = 720
     let height = 200
     let ratio = 1
@@ -47,7 +55,7 @@ const FooterDog = () => {
       actor = greeting
         ? getDogGreetingState(greeting.elapsed, width, height, greeting.xRatio)
         : getDogStoryState(elapsed, width, height)
-      if (preference.matches && !greeting) {
+      if (reduceMotionRef.current && !greeting) {
         actor = {
           ...actor,
           x: width / 2,
@@ -118,7 +126,7 @@ const FooterDog = () => {
       window.cancelAnimationFrame(animationFrame)
       window.clearTimeout(greetingTimer)
       lastTime = null
-      if (greeting && preference.matches) {
+      if (greeting && reduceMotionRef.current) {
         greetingTimer = window.setTimeout(
           finishGreeting,
           (DOG_GREETING_DURATION - greeting.elapsed) * 1000
@@ -128,7 +136,7 @@ const FooterDog = () => {
         loaded &&
         visible &&
         !document.hidden &&
-        !preference.matches &&
+        !reduceMotionRef.current &&
         !disposed
       ) {
         animationFrame = window.requestAnimationFrame(tick)
@@ -146,6 +154,7 @@ const FooterDog = () => {
       render()
     }
     controllerRef.current = {
+      sync,
       activate: point => {
         if (!loaded || (point && !isDogHit(actor, point.x, point.y)))
           return false
@@ -167,15 +176,17 @@ const FooterDog = () => {
       setReady(true)
       sync()
     }
-    sheet.src = '/art/footer-dog/dog-motion-atlas.webp'
     const sizeObserver = new ResizeObserver(resize)
     sizeObserver.observe(canvas)
     const visibilityObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting
+      if (visible && !requested) {
+        requested = true
+        sheet.src = '/art/footer-dog/dog-motion-atlas.webp'
+      }
       sync()
     })
     visibilityObserver.observe(canvas)
-    preference.addEventListener('change', sync)
     document.addEventListener('visibilitychange', sync)
     resize()
     return () => {
@@ -184,7 +195,6 @@ const FooterDog = () => {
       window.clearTimeout(greetingTimer)
       sizeObserver.disconnect()
       visibilityObserver.disconnect()
-      preference.removeEventListener('change', sync)
       document.removeEventListener('visibilitychange', sync)
       sheet.onload = null
       controllerRef.current = null
@@ -206,16 +216,20 @@ const FooterDog = () => {
       {!ready && (
         <Image
           src="/art/footer-dog/dog-poster.png"
+          loading="lazy"
           alt=""
           aria-hidden="true"
-          position="absolute"
-          bottom="-12px"
-          left="50%"
-          transform="translateX(-50%)"
-          width="128px"
-          height="96px"
-          pointerEvents="none"
-          style={{ imageRendering: 'pixelated' }}
+          width={128}
+          height={96}
+          sizes="128px"
+          style={{
+            position: 'absolute',
+            bottom: '-12px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            pointerEvents: 'none',
+            imageRendering: 'pixelated'
+          }}
         />
       )}
       <Box
@@ -231,7 +245,11 @@ const FooterDog = () => {
         opacity={ready ? 1 : 0}
         outline="none"
         boxShadow="none"
-        style={{ WebkitTapHighlightColor: 'transparent' }}
+        style={{
+          WebkitTapHighlightColor: 'transparent',
+          outline: 'none',
+          boxShadow: 'none'
+        }}
         onPointerDown={() => controllerRef.current?.focus(false)}
         onPointerMove={event => {
           event.currentTarget.style.cursor = controllerRef.current?.hit(

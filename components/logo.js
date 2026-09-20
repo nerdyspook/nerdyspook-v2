@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from './motion-preferences'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Text, useColorModeValue } from '@chakra-ui/react'
@@ -8,27 +9,33 @@ const LogoBox = styled.span`
   font-size: 18px;
   display: inline-flex;
   align-items: center;
-  height: 30px;
+  min-height: 44px;
   line-height: 20px;
-  padding: 10px;
+  padding: 2px;
 
   &:hover img {
-    transform: rotate(20deg);
+    transform: var(--logo-hover-transform);
   }
 `
 
 const Logo = () => {
+  const reduceMotion = useReducedMotionPreference()
   const footPrintImg = `/images/footprint${useColorModeValue('', '-dark')}.png`
 
   return (
-    <Link href="/">
-      <LogoBox>
-        <Image src={footPrintImg} width={20} height={20} alt="logo" />
+    <Link href="/" aria-label="NerdySpook home">
+      <LogoBox
+        style={{
+          '--logo-hover-transform': reduceMotion ? 'none' : 'rotate(20deg)'
+        }}
+      >
+        <Image src={footPrintImg} width={20} height={20} alt="" />
         <Text
           color={useColorModeValue('gray.800', 'whiteAlpha.900')}
-          fontFamily="M PLUS Rounded 1c"
+          fontFamily="heading"
           fontWeight="bold"
-          ml={3}
+          fontSize={{ base: '16px', md: '18px' }}
+          ml={2}
         >
           NerdySpook
         </Text>

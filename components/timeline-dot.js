@@ -1,17 +1,23 @@
+import { useReducedMotionPreference } from './motion-preferences'
 import { useEffect, useRef, useState } from 'react'
 import { Box } from '@chakra-ui/react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 // Adjust these values to change the pulse without touching the timeline layout.
 const pulse = {
-  scale: [1, 2.8],
+  transform: ['scale(1)', 'scale(2.8)'],
   opacity: [0.5, 0],
-  transition: { duration: 1.5, repeat: Infinity, repeatDelay: 0.3, ease: 'easeOut' }
+  transition: {
+    duration: 1.5,
+    repeat: Infinity,
+    repeatDelay: 0.3,
+    ease: 'easeOut'
+  }
 }
 
 const TimelineDot = ({ color }) => {
   const dotRef = useRef(null)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -59,7 +65,9 @@ const TimelineDot = ({ color }) => {
     >
       <motion.span
         initial={false}
-        animate={shouldPulse ? pulse : { scale: 1.8, opacity: 0.18 }}
+        animate={
+          shouldPulse ? pulse : { transform: 'scale(1.8)', opacity: 0.18 }
+        }
         transition={{ duration: 0 }}
         style={{
           position: 'absolute',

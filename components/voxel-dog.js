@@ -1,134 +1,220 @@
 import { useState, useEffect, useRef } from 'react'
-import { Box, Spinner } from '@chakra-ui/react'
+import { Box, Image, Spinner, VisuallyHidden } from '@chakra-ui/react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { loadGLTFModel } from '../libs/model'
-
-function easeOutCirc(x) {
-  return Math.sqrt(1 - Math.pow(x - 1, 4))
-}
+import { useReducedMotionPreference } from './motion-preferences'
 
 const VoxelDog = () => {
-  const refContainer = useRef()
+  const refContainer = useRef(null)
+  const controller = useRef(null)
+  const reducedMotion = useReducedMotionPreference()
+  const reducedMotionRef = useRef(reducedMotion)
   const [loading, setLoading] = useState(true)
+  const [failed, setFailed] = useState(false)
+
   useEffect(() => {
-    const { current: container } = refContainer
-    if (container) {
-      // React 18 Strict Mode runs setup/cleanup twice in development.
-      // Keep each renderer, scene and animation loop owned by this effect.
-      let disposed = false
-      const scene = new THREE.Scene()
-      const target = new THREE.Vector3(-0.5, 1.2, 0)
-      const initialCameraPosition = new THREE.Vector3(
-        20 * Math.sin(0.2 * Math.PI),
-        10,
-        20 * Math.cos(0.2 * Math.PI)
-      )
-      const scW = container.clientWidth
-      const scH = container.clientHeight
+    reducedMotionRef.current = reducedMotion
+    controller.current?.sync()
+  }, [reducedMotion])
 
-      const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true
-      })
-      renderer.setPixelRatio(window.devicePixelRatio)
-      renderer.setSize(scW, scH)
-      renderer.outputEncoding = THREE.sRGBEncoding
-      container.appendChild(renderer.domElement)
+  useEffect(() => {
+    const container = refContainer.current
+    if (!container) return
+    let disposed = false
+    let visible = false
+    let loaded = false
+    let interacting = false
+    const introDuration = (100 / 60) * 1000
+    let introElapsed = 0
+    let lastTime = null
+    let frame = null
+    let renderer
+    const scene = new THREE.Scene()
+    const target = new THREE.Vector3(-0.5, 1.2, 0)
 
-      const scale = scH * 0.005 + 4.8
-      const camera = new THREE.OrthographicCamera(
-        -scale,
-        scale,
-        scale,
-        -scale,
-        0.01,
-        50000
-      )
-      camera.position.copy(initialCameraPosition)
-      camera.lookAt(target)
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    } catch {
+      // WebGL availability is only known after initializing the browser renderer.
+      /* eslint-disable react-hooks/set-state-in-effect */
+      setLoading(false)
+      setFailed(true)
+      /* eslint-enable react-hooks/set-state-in-effect */
+      return
+    }
 
-      const ambientLight = new THREE.AmbientLight(0xcccccc, 1)
-      scene.add(ambientLight)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.outputEncoding = THREE.sRGBEncoding
+    const canvas = renderer.domElement
+    canvas.tabIndex = 0
+    canvas.style.outline = 'none'
+    canvas.style.boxShadow = 'none'
+    canvas.setAttribute('role', 'img')
+    canvas.setAttribute('aria-label', 'Interactive 3D desk scene')
+    canvas.setAttribute('aria-describedby', 'scene-instructions')
+    container.appendChild(canvas)
 
-      const controls = new OrbitControls(camera, renderer.domElement)
-      controls.autoRotate = true
-      controls.target = target
+    const camera = new THREE.OrthographicCamera(-8, 8, 8, -8, 0.01, 50000)
+    const initialCameraPosition = new THREE.Vector3(
+      20 * Math.sin(0.2 * Math.PI),
+      10,
+      20 * Math.cos(0.2 * Math.PI)
+    )
+    camera.position.copy(initialCameraPosition)
+    camera.lookAt(target)
+    scene.add(new THREE.AmbientLight(0xcccccc, 1))
+    const controls = new OrbitControls(camera, canvas)
+    controls.target.copy(target)
+    controls.autoRotateSpeed = 2
 
-      let req = null
-      let frame = 0
-      const animate = () => {
-        if (disposed) return
-        req = requestAnimationFrame(animate)
-
-        frame = frame <= 100 ? frame + 1 : frame
-
-        if (frame <= 100) {
-          const p = initialCameraPosition
-          const rotSpeed = -easeOutCirc(frame / 120) * Math.PI * 20
-
-          camera.position.y = 10
-          camera.position.x =
-            p.x * Math.cos(rotSpeed) + p.z * Math.sin(rotSpeed)
-          camera.position.z =
-            p.z * Math.cos(rotSpeed) - p.x * Math.sin(rotSpeed)
-          camera.lookAt(target)
-        } else {
-          controls.update()
-        }
-
-        renderer.render(scene, camera)
+    const render = () => {
+      if (loaded && !disposed) renderer.render(scene, camera)
+    }
+    const canAnimate = () =>
+      loaded &&
+      visible &&
+      !document.hidden &&
+      !reducedMotionRef.current &&
+      !interacting &&
+      !disposed
+    const tick = now => {
+      frame = null
+      if (!canAnimate()) return
+      const delta = lastTime === null ? 1000 / 60 : Math.min(now - lastTime, 50)
+      lastTime = now
+      if (introElapsed < introDuration) {
+        introElapsed = Math.min(introElapsed + delta, introDuration)
+        const progress = introElapsed / 2000
+        const angle = -Math.sqrt(1 - Math.pow(1 - progress, 4)) * Math.PI * 20
+        const origin = initialCameraPosition
+        camera.position.set(
+          origin.x * Math.cos(angle) + origin.z * Math.sin(angle),
+          origin.y,
+          origin.z * Math.cos(angle) - origin.x * Math.sin(angle)
+        )
+        camera.lookAt(target)
+        render()
+      } else {
+        // This OrbitControls version rotates per update; normalize to elapsed time.
+        controls.autoRotateSpeed = 2 * (delta / (1000 / 60))
+        controls.update()
       }
+      frame = requestAnimationFrame(tick)
+    }
+    const sync = () => {
+      cancelAnimationFrame(frame)
+      frame = null
+      lastTime = null
+      controls.autoRotate = canAnimate()
+      render()
+      if (canAnimate()) frame = requestAnimationFrame(tick)
+    }
+    controller.current = { sync }
 
-      const disposeScene = () => {
-        scene.traverse(object => {
-          object.geometry?.dispose()
-          const materials = Array.isArray(object.material)
-            ? object.material
-            : [object.material]
-          materials.filter(Boolean).forEach(material => {
-            Object.values(material).forEach(value => {
-              if (value?.isTexture) value.dispose()
-            })
-            material.dispose()
+    const resize = () => {
+      const width = container.clientWidth
+      const height = container.clientHeight
+      const scale = height * 0.005 + 4.8
+      camera.left = (-scale * width) / height
+      camera.right = (scale * width) / height
+      camera.top = scale
+      camera.bottom = -scale
+      camera.updateProjectionMatrix()
+      renderer.setSize(width, height)
+      render()
+    }
+    const rotateWithKeys = event => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return
+      event.preventDefault()
+      introElapsed = introDuration
+      const offset = camera.position.clone().sub(target)
+      offset.applyAxisAngle(
+        new THREE.Vector3(0, 1, 0),
+        event.key === 'ArrowLeft' ? -0.15 : 0.15
+      )
+      camera.position.copy(target).add(offset)
+      controls.update()
+      render()
+    }
+    const start = () => {
+      introElapsed = introDuration
+      interacting = true
+      sync()
+    }
+    const end = () => {
+      interacting = false
+      sync()
+    }
+    controls.addEventListener('change', render)
+    controls.addEventListener('start', start)
+    controls.addEventListener('end', end)
+    canvas.addEventListener('keydown', rotateWithKeys)
+    // Permit normal vertical scrolling on touchscreens over the illustration.
+    canvas.style.touchAction = 'pan-y'
+    const sizeObserver = new ResizeObserver(resize)
+    sizeObserver.observe(container)
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      sync()
+    })
+    visibilityObserver.observe(container)
+    document.addEventListener('visibilitychange', sync)
+    resize()
+
+    const disposeScene = () => {
+      scene.traverse(object => {
+        object.geometry?.dispose()
+        const materials = Array.isArray(object.material)
+          ? object.material
+          : [object.material]
+        materials.filter(Boolean).forEach(material => {
+          Object.values(material).forEach(value => {
+            if (value?.isTexture) value.dispose()
           })
+          material.dispose()
         })
-        scene.clear()
-      }
-
-      loadGLTFModel(scene, '/dog.glb', {
-        receiveShadow: false,
-        castShadow: false
       })
-        .then(() => {
-          if (disposed) {
-            disposeScene()
-            return
-          }
-          animate()
+      scene.clear()
+    }
+
+    loadGLTFModel(scene, '/dog.glb', {
+      receiveShadow: false,
+      castShadow: false
+    })
+      .then(() => {
+        if (disposed) {
+          disposeScene()
+          return
+        }
+        loaded = true
+        setLoading(false)
+        controls.update()
+        sync()
+      })
+      .catch(() => {
+        if (!disposed) {
           setLoading(false)
-        })
-        .catch(error => {
-          if (!disposed) {
-            console.error('Unable to load the dog model:', error)
-            setLoading(false)
-          }
-        })
+          setFailed(true)
+          canvas.tabIndex = -1
+        }
+      })
 
-      const handleWindowResize = () => {
-        renderer.setSize(container.clientWidth, container.clientHeight)
-      }
-      window.addEventListener('resize', handleWindowResize)
-
-      return () => {
-        disposed = true
-        cancelAnimationFrame(req)
-        window.removeEventListener('resize', handleWindowResize)
-        controls.dispose()
-        disposeScene()
-        renderer.dispose()
-        renderer.domElement.remove()
-      }
+    return () => {
+      disposed = true
+      controller.current = null
+      cancelAnimationFrame(frame)
+      document.removeEventListener('visibilitychange', sync)
+      sizeObserver.disconnect()
+      visibilityObserver.disconnect()
+      canvas.removeEventListener('keydown', rotateWithKeys)
+      controls.removeEventListener('change', render)
+      controls.removeEventListener('start', start)
+      controls.removeEventListener('end', end)
+      controls.dispose()
+      disposeScene()
+      renderer.dispose()
+      canvas.remove()
     }
   }, [])
 
@@ -136,21 +222,31 @@ const VoxelDog = () => {
     <Box
       ref={refContainer}
       className="voxel-dog"
-      m="auto"
-      mt={['-20px', '-60px', '-120px']}
-      mb={['-40px', '-140px', '-200px']}
-      w={[280, 480, 640]}
-      h={[280, 480, 640]}
+      w="100%"
+      h="100%"
       position="relative"
     >
+      <VisuallyHidden id="scene-instructions">
+        Drag or use the left and right arrow keys to rotate the scene.
+      </VisuallyHidden>
       {loading && (
         <Spinner
-          size="xl"
+          animation={reducedMotion ? 'none' : undefined}
+          size="lg"
           position="absolute"
           left="50%"
-          top="50%"
-          ml="calc(0px - var(--spinner-size) / 2)"
-          mt="calc(0px - var(--spinner-size))"
+          top="45%"
+          label="Loading illustration"
+        />
+      )}
+      {failed && (
+        <Image
+          src="/favicon.svg"
+          alt=""
+          position="absolute"
+          boxSize="64px"
+          left="calc(50% - 32px)"
+          top="calc(45% - 32px)"
         />
       )}
     </Box>

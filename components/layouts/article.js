@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { useReducedMotionPreference } from '../motion-preferences'
+import { motion } from 'framer-motion'
 import { GridItemStyle } from '../grid-item'
 
 const variants = {
@@ -8,7 +9,7 @@ const variants = {
 }
 
 const Layout = ({ children }) => {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   return (
     <motion.article
       initial={false}
