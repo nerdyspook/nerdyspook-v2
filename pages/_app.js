@@ -3,6 +3,7 @@ import Layout from '../components/layouts/main'
 import Fonts from '../components/fonts'
 import theme from '../libs/theme'
 import { AnimatePresence } from 'framer-motion'
+import { Analytics } from "@vercel/analytics/next"
 import { MotionPreferencesProvider } from '../components/motion-preferences'
 
 const Website = ({ Component, pageProps, router }) => {
@@ -16,6 +17,7 @@ const Website = ({ Component, pageProps, router }) => {
           </AnimatePresence>
         </Layout>
       </MotionPreferencesProvider>
+      <Analytics />
     </ChakraProvider>
   )
 }
