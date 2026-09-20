@@ -1,12 +1,6 @@
 import NextLink from 'next/link'
-import {
-  Box,
-  Heading,
-  Text,
-  Container,
-  Divider,
-  Button
-} from '@chakra-ui/react'
+import { Box, Heading, Text, Container, Divider } from '@chakra-ui/react'
+import { AnimatedButton } from '../components/animated-button'
 
 const NotFound = () => {
   return (
@@ -18,7 +12,9 @@ const NotFound = () => {
       <Divider my={6} />
       <Box my={6} align="center">
         <NextLink href="/" passHref>
-          <Button colorScheme="teal">Return to home</Button>
+          <AnimatedButton as="a" colorScheme="teal">
+            Return to home
+          </AnimatedButton>
         </NextLink>
       </Box>
     </Container>

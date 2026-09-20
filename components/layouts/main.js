@@ -14,7 +14,7 @@ const Main = ({ children, router }) => {
         <link rel="icon" href="/images/favicon.ico"></link>
       </Head>
       <Navbar path={router.asPath} />
-      <Container maxW="container.md" pt={14}>
+      <Container maxW="container.content" px={0} pt={14}>
         <NoSsr>
           <VoxelDog />
         </NoSsr>

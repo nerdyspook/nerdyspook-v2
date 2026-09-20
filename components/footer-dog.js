@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Box, Image, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image, VisuallyHidden, useColorModeValue } from '@chakra-ui/react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   DOG_GREETING_DURATION,
   DOG_SIZE,
@@ -10,6 +11,7 @@ import {
 } from '../libs/footer-dog'
 
 const FooterDog = () => {
+  const reduceMotion = useReducedMotion()
   const canvasRef = useRef(null)
   const bubbleRef = useRef(null)
   const controllerRef = useRef(null)
@@ -264,24 +266,47 @@ const FooterDog = () => {
         textAlign="left"
         pointerEvents="none"
       >
-        <Box
-          id="footer-dog-message"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          position="relative"
-          bg={message ? bubbleColor : 'transparent'}
-          borderWidth={message ? '1px' : 0}
-          borderColor={bubbleBorder}
-          borderRadius="18px"
-          boxShadow={message ? '0 5px 18px rgba(0, 0, 0, 0.08)' : 'none'}
-          px={4}
-          py={message ? 3 : 0}
-          fontSize="14px"
-          lineHeight="1.5"
-          _after={
-            message
-              ? {
+        <AnimatePresence initial={false} exitBeforeEnter>
+          {message && (
+            <motion.div
+              key={clicks}
+              aria-hidden="true"
+              initial={{
+                opacity: 0,
+                y: reduceMotion === false ? 8 : 0,
+                scale: reduceMotion === false ? 0.96 : 1
+              }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{
+                opacity: 0,
+                y: reduceMotion === false ? -4 : 0,
+                scale: reduceMotion === false ? 0.98 : 1
+              }}
+              transition={
+                reduceMotion === false
+                  ? {
+                      type: 'spring',
+                      stiffness: 430,
+                      damping: 30,
+                      mass: 0.65,
+                      opacity: { duration: 0.12 }
+                    }
+                  : { duration: 0 }
+              }
+              style={{ transformOrigin: 'var(--dog-tail-x, 50%) bottom' }}
+            >
+              <Box
+                position="relative"
+                bg={bubbleColor}
+                borderWidth="1px"
+                borderColor={bubbleBorder}
+                borderRadius="18px"
+                boxShadow="0 5px 18px rgba(0, 0, 0, 0.08)"
+                px={4}
+                py={3}
+                fontSize="14px"
+                lineHeight="1.5"
+                _after={{
                   content: '""',
                   position: 'absolute',
                   bottom: '-7px',
@@ -293,13 +318,22 @@ const FooterDog = () => {
                   borderBottom: '1px solid',
                   borderColor: bubbleBorder,
                   transform: 'translateX(-50%) rotate(45deg)'
-                }
-              : undefined
-          }
-        >
-          {message}
-        </Box>
+                }}
+              >
+                {message}
+              </Box>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Box>
+      <VisuallyHidden
+        id="footer-dog-message"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {message}
+      </VisuallyHidden>
     </Box>
   )
 }
