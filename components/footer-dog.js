@@ -266,7 +266,7 @@ const FooterDog = () => {
         textAlign="left"
         pointerEvents="none"
       >
-        <AnimatePresence initial={false} exitBeforeEnter>
+        <AnimatePresence initial={false} mode="wait">
           {message && (
             <motion.div
               key={clicks}

@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import Head from 'next/head'
 import { GridItemStyle } from '../grid-item'
 
 const variants = {
@@ -8,11 +7,11 @@ const variants = {
   exit: { opacity: 0, x: 0, y: 20 }
 }
 
-const Layout = ({ children, title }) => {
+const Layout = ({ children }) => {
   const reduceMotion = useReducedMotion()
   return (
     <motion.article
-      initial="hidden"
+      initial={false}
       animate="enter"
       exit="exit"
       variants={
@@ -28,11 +27,6 @@ const Layout = ({ children, title }) => {
       style={{ position: 'relative' }}
     >
       <>
-        {title && (
-          <Head>
-            <title>{title} - NerdySpook</title>
-          </Head>
-        )}
         {children}
         <GridItemStyle />
       </>

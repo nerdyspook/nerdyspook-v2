@@ -11,7 +11,7 @@ const Section = ({ children, delay = 0 }) => {
   const reduceMotion = useReducedMotion()
   return (
     <StyledDiv
-      initial={{ y: reduceMotion ? 0 : 10, opacity: 0 }}
+      initial={false}
       animate={{ y: 0, opacity: 1 }}
       transition={{
         duration: reduceMotion ? 0 : 0.8,

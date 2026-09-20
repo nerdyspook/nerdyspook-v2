@@ -78,11 +78,11 @@ const PortfolioFooter = () => {
       >
         {socialLinks.map(({ label, href, icon: SocialIcon, iconSize }) => (
           <Link
-            key={label}
+            key={href}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`${label} (opens in a new tab)`}
+            aria-label={`${label || 'X'} (opens in a new tab)`}
           >
             <SocialIcon
               size={iconSize}
@@ -93,17 +93,15 @@ const PortfolioFooter = () => {
             {label ?? label}
           </Link>
         ))}
-        <NextLink href="/blogs" passHref>
-          <Link>
-            <IoCreateOutline
-              size="20px"
-              style={{ flexShrink: 0 }}
-              aria-hidden="true"
-              focusable="false"
-            />
-            Writing
-          </Link>
-        </NextLink>
+        <Link as={NextLink} href="/blogs">
+          <IoCreateOutline
+            size="20px"
+            style={{ flexShrink: 0 }}
+            aria-hidden="true"
+            focusable="false"
+          />
+          Writing
+        </Link>
       </Flex>
     </Box>
   )

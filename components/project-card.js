@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Box, LinkBox, LinkOverlay, Text } from '@chakra-ui/react'
 import { motion, useReducedMotion } from 'framer-motion'
 
-const MotionLinkBox = motion(LinkBox)
+const MotionLinkBox = motion.create(LinkBox)
 
 const ProjectCard = ({ href, image, title, description }) => {
   const reduceMotion = useReducedMotion()
@@ -15,10 +15,10 @@ const ProjectCard = ({ href, image, title, description }) => {
     <MotionLinkBox
       w="100%"
       textAlign="center"
-      cursor="pointer"
+      cursor={href ? 'pointer' : 'default'}
       initial={false}
       animate={focused ? 'hover' : 'rest'}
-      whileHover="hover"
+      whileHover={href ? 'hover' : undefined}
       variants={{ rest: { y: 0 }, hover: { y: motionEnabled ? -4 : 0 } }}
       transition={motionEnabled ? { duration: 0.2 } : { duration: 0 }}
       onFocusCapture={() => setFocused(true)}
@@ -40,18 +40,23 @@ const ProjectCard = ({ href, image, title, description }) => {
             alt={title}
             height={250}
             width={500}
-            layout="responsive"
+            sizes="(min-width: 768px) 320px, (min-width: 480px) 50vw, 100vw"
+            style={{ width: '100%', height: 'auto' }}
             loading="lazy"
           />
         </motion.div>
       </Box>
-      <NextLink href={href} passHref>
-        <LinkOverlay>
-          <Text mt={2} fontSize={20}>
+      {href ? (
+        <LinkOverlay as={NextLink} href={href}>
+          <Text as="h2" mt={2} fontSize={20}>
             {title}
           </Text>
         </LinkOverlay>
-      </NextLink>
+      ) : (
+        <Text as="h2" mt={2} fontSize={20}>
+          {title}
+        </Text>
+      )}
       <Text fontSize={14}>{description}</Text>
     </MotionLinkBox>
   )

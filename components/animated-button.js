@@ -2,8 +2,8 @@ import { forwardRef } from 'react'
 import { Button, IconButton } from '@chakra-ui/react'
 import { motion, useReducedMotion } from 'framer-motion'
 
-const MotionButton = motion(Button)
-const MotionIconButton = motion(IconButton)
+const MotionButton = motion.create(Button)
+const MotionIconButton = motion.create(IconButton)
 const spring = { type: 'spring', stiffness: 500, damping: 30 }
 
 export const AnimatedButton = forwardRef(
@@ -14,6 +14,7 @@ export const AnimatedButton = forwardRef(
     return (
       <MotionButton
         ref={ref}
+        tabIndex={0}
         transitionProperty="background-color, border-color, color, box-shadow"
         initial="rest"
         animate="rest"
@@ -48,6 +49,7 @@ export const AnimatedIconButton = forwardRef((props, ref) => {
   return (
     <MotionIconButton
       ref={ref}
+      tabIndex={0}
       transitionProperty="background-color, border-color, color, box-shadow"
       whileHover={motionEnabled ? { y: -1 } : undefined}
       whileTap={motionEnabled ? { scale: 0.94 } : undefined}

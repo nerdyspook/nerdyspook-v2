@@ -186,7 +186,7 @@ const Home = () => {
                     <Text
                       fontSize="0.875rem"
                       color={current ? accentColor : mutedColor}
-                      fontVariantNumeric="tabular-nums"
+                      sx={{ fontVariantNumeric: 'tabular-nums' }}
                       whiteSpace="nowrap"
                       flexShrink={0}
                       textAlign={{ base: 'left', sm: 'right' }}
@@ -212,15 +212,14 @@ const Home = () => {
             ))}
           </Box>
           <Box align="center" my={4}>
-            <NextLink href="/projects" passHref>
-              <AnimatedButton
-                as="a"
-                rightIcon={<ChevronRightIcon />}
-                colorScheme="teal"
-              >
-                My Portfolio
-              </AnimatedButton>
-            </NextLink>
+            <AnimatedButton
+              as={NextLink}
+              href="/projects"
+              rightIcon={<ChevronRightIcon />}
+              colorScheme="teal"
+            >
+              My Portfolio
+            </AnimatedButton>
           </Box>
         </Section>
 

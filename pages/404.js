@@ -11,11 +11,9 @@ const NotFound = () => {
       <Text>🐶 Woofy couldn&apos;t find the page you were looking for.</Text>
       <Divider my={6} />
       <Box my={6} align="center">
-        <NextLink href="/" passHref>
-          <AnimatedButton as="a" colorScheme="teal">
-            Return to home
-          </AnimatedButton>
-        </NextLink>
+        <AnimatedButton as={NextLink} href="/" colorScheme="teal">
+          Return to home
+        </AnimatedButton>
       </Box>
     </Container>
   )

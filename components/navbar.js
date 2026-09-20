@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AnimateSharedLayout, motion, useReducedMotion } from 'framer-motion'
+import { LayoutGroup, motion, useReducedMotion } from 'framer-motion'
 import Logo from './logo'
 import NextLink from 'next/link'
 import {
@@ -27,46 +27,47 @@ const LinkItem = ({ href, path, indicatedPath, onIndicate, children }) => {
   const accent = useColorModeValue('teal.600', 'teal.200')
 
   return (
-    <NextLink href={href} passHref scroll={false}>
-      <Link
-        position="relative"
-        display="inline-block"
-        p={2}
-        color={active || indicated ? accent : inactiveColor}
-        aria-current={active ? 'page' : undefined}
-        onMouseEnter={() => onIndicate(href)}
-        onFocus={() => onIndicate(href)}
-        _hover={{ color: accent, textDecoration: 'none' }}
-      >
-        {children}
-        {indicated && (
-          <motion.span
-            layoutId="navigation-underline"
-            aria-hidden="true"
-            transition={
-              reduceMotion === false
-                ? { type: 'spring', stiffness: 500, damping: 35 }
-                : { duration: 0 }
-            }
-            style={{
-              position: 'absolute',
-              bottom: 2,
-              left: 8,
-              right: 8,
-              height: 2,
-              borderRadius: 2,
-              background: 'currentColor',
-              pointerEvents: 'none'
-            }}
-          />
-        )}
-      </Link>
-    </NextLink>
+    <Link
+      as={NextLink}
+      href={href}
+      scroll={false}
+      position="relative"
+      display="inline-block"
+      p={2}
+      color={active || indicated ? accent : inactiveColor}
+      aria-current={active ? 'page' : undefined}
+      onMouseEnter={() => onIndicate(href)}
+      onFocus={() => onIndicate(href)}
+      _hover={{ color: accent, textDecoration: 'none' }}
+    >
+      {children}
+      {indicated && (
+        <motion.span
+          layoutId="navigation-underline"
+          aria-hidden="true"
+          transition={
+            reduceMotion === false
+              ? { type: 'spring', stiffness: 500, damping: 35 }
+              : { duration: 0 }
+          }
+          style={{
+            position: 'absolute',
+            bottom: 2,
+            left: 8,
+            right: 8,
+            height: 2,
+            borderRadius: 2,
+            background: 'currentColor',
+            pointerEvents: 'none'
+          }}
+        />
+      )}
+    </Link>
   )
 }
 
-const Navbar = props => {
-  const path = (props.path || '/').split(/[?#]/)[0]
+const Navbar = ({ path: currentPath, ...props }) => {
+  const path = (currentPath || '/').split(/[?#]/)[0]
   const [indicatedPath, setIndicatedPath] = useState(null)
 
   return (
@@ -89,12 +90,12 @@ const Navbar = props => {
         justify="space-between"
       >
         <Flex align="center" mr={5}>
-          <Heading as="h1" size="lg" letterSpacing={'tighter'}>
+          <Heading as="div" size="lg" letterSpacing={'tighter'}>
             <Logo />
           </Heading>
         </Flex>
 
-        <AnimateSharedLayout>
+        <LayoutGroup id="navigation">
           <Stack
             onMouseLeave={() => setIndicatedPath(null)}
             onBlur={event => {
@@ -134,7 +135,7 @@ const Navbar = props => {
               View Source
             </Link>
           </Stack>
-        </AnimateSharedLayout>
+        </LayoutGroup>
 
         <Box flex={1} align="right">
           <ThemeToggleButton />
@@ -147,15 +148,15 @@ const Navbar = props => {
                 aria-label="Options"
               />
               <MenuList>
-                <NextLink href="/" passHref>
-                  <MenuItem as={Link}>About</MenuItem>
-                </NextLink>
-                <NextLink href="/projects" passHref>
-                  <MenuItem as={Link}>Projects</MenuItem>
-                </NextLink>
-                <NextLink href="/blogs" passHref>
-                  <MenuItem as={Link}>Blogs</MenuItem>
-                </NextLink>
+                <MenuItem as={NextLink} href="/">
+                  About
+                </MenuItem>
+                <MenuItem as={NextLink} href="/projects">
+                  Projects
+                </MenuItem>
+                <MenuItem as={NextLink} href="/blogs">
+                  Blogs
+                </MenuItem>
 
                 <MenuItem
                   as={Link}
