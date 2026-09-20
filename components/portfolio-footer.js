@@ -1,7 +1,15 @@
 import NextLink from 'next/link'
-import { Box, Flex, Link, useColorModeValue } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Link,
+  Heading,
+  Text,
+  useColorModeValue
+} from '@chakra-ui/react'
 import { IoLogoGithub, IoLogoLinkedin, IoCreateOutline } from 'react-icons/io5'
 import FooterDog from './footer-dog'
+import ContactActions from './contact-actions'
 
 // X brand mark from Simple Icons (simple-icons/simple-icons, icons/x.svg).
 const XIcon = ({ size = '1em', ...props }) => (
@@ -39,8 +47,8 @@ const socialLinks = [
 
 const PortfolioFooter = () => {
   const border = useColorModeValue('blackAlpha.200', 'whiteAlpha.200')
-  const ink = useColorModeValue('teal.600', 'teal.200')
-  const hover = useColorModeValue('teal.700', 'teal.100')
+  const ink = useColorModeValue('teal.700', 'teal.200')
+  const hover = useColorModeValue('teal.800', 'teal.100')
 
   return (
     <Box
@@ -51,6 +59,22 @@ const PortfolioFooter = () => {
       px={{ base: 4, md: 6 }}
       mt={{ base: 10, md: 16 }}
     >
+      <Box
+        as="section"
+        aria-labelledby="contact-heading"
+        borderTop="1px solid"
+        borderColor={border}
+        pt={8}
+      >
+        <Heading id="contact-heading" as="h2" fontSize="1.25rem" mb={3}>
+          Let’s talk.
+        </Heading>
+        <Text mb={5}>
+          Have a project, a role, or a frontend problem in mind? I’d love to
+          hear about it.
+        </Text>
+        <ContactActions />
+      </Box>
       <FooterDog />
       <Flex
         as="nav"
@@ -71,6 +95,7 @@ const PortfolioFooter = () => {
             alignItems: 'center',
             gap: 2,
             minHeight: '44px',
+            minWidth: '44px',
             color: 'inherit',
             _hover: { color: hover, textDecoration: 'underline' }
           }

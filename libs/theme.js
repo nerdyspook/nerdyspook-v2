@@ -5,6 +5,15 @@ const styles = {
   global: props => ({
     body: {
       bg: mode('#f0e7db', '#202023')(props)
+    },
+    html: { scrollPaddingTop: '80px' },
+    'a:focus-visible, button:focus-visible, [role="button"]:focus-visible': {
+      outline: '3px solid',
+      outlineColor: mode('teal.700', 'teal.200')(props),
+      outlineOffset: '3px'
+    },
+    '@media (prefers-reduced-motion: reduce)': {
+      '*, *::before, *::after': { scrollBehavior: 'auto' }
     }
   })
 }
@@ -25,14 +34,14 @@ const components = {
   },
   Link: {
     baseStyle: props => ({
-      color: mode('#3d7aed', '#ff63c3')(props),
+      color: mode('#245ab5', '#ff63c3')(props),
       textUnderlineOffset: 3
     })
   }
 }
 
 const fonts = {
-  heading: 'M PLUS Rounded 1c'
+  heading: 'var(--font-heading), system-ui, sans-serif'
 }
 
 const colors = {

@@ -1,14 +1,16 @@
+import { useReducedMotionPreference } from './motion-preferences'
 import { forwardRef } from 'react'
 import { Button, IconButton } from '@chakra-ui/react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const MotionButton = motion.create(Button)
 const MotionIconButton = motion.create(IconButton)
 const spring = { type: 'spring', stiffness: 500, damping: 30 }
+const restTransform = 'translateY(0px) scale(1)'
 
 export const AnimatedButton = forwardRef(
   ({ children, rightIcon, ...props }, ref) => {
-    const reduceMotion = useReducedMotion()
+    const reduceMotion = useReducedMotionPreference()
     const motionEnabled = reduceMotion === false
 
     return (
@@ -20,14 +22,31 @@ export const AnimatedButton = forwardRef(
         animate="rest"
         whileHover="hover"
         whileFocus="hover"
-        whileTap={motionEnabled ? { scale: 0.97 } : undefined}
-        variants={{ rest: { y: 0 }, hover: { y: motionEnabled ? -1 : 0 } }}
+        whileTap={
+          motionEnabled
+            ? { transform: 'translateY(-1px) scale(0.97)' }
+            : undefined
+        }
+        variants={{
+          rest: { transform: restTransform },
+          hover: {
+            transform: motionEnabled
+              ? 'translateY(-1px) scale(1)'
+              : restTransform
+          }
+        }}
         transition={motionEnabled ? spring : { duration: 0 }}
         rightIcon={
           rightIcon && (
             <motion.span
               style={{ display: 'inline-flex' }}
-              variants={{ rest: { x: 0 }, hover: { x: motionEnabled ? 3 : 0 } }}
+              // Full transforms let the browser run the spring off the JS thread.
+              variants={{
+                rest: { transform: 'translateX(0px)' },
+                hover: {
+                  transform: `translateX(${motionEnabled ? 3 : 0}px)`
+                }
+              }}
               transition={motionEnabled ? spring : { duration: 0 }}
             >
               {rightIcon}
@@ -43,7 +62,7 @@ export const AnimatedButton = forwardRef(
 )
 
 export const AnimatedIconButton = forwardRef((props, ref) => {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   const motionEnabled = reduceMotion === false
 
   return (
@@ -51,8 +70,16 @@ export const AnimatedIconButton = forwardRef((props, ref) => {
       ref={ref}
       tabIndex={0}
       transitionProperty="background-color, border-color, color, box-shadow"
-      whileHover={motionEnabled ? { y: -1 } : undefined}
-      whileTap={motionEnabled ? { scale: 0.94 } : undefined}
+      initial={false}
+      animate={{ transform: restTransform }}
+      whileHover={
+        motionEnabled ? { transform: 'translateY(-1px) scale(1)' } : undefined
+      }
+      whileTap={
+        motionEnabled
+          ? { transform: 'translateY(-1px) scale(0.94)' }
+          : undefined
+      }
       transition={motionEnabled ? spring : { duration: 0 }}
       {...props}
     />

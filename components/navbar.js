@@ -1,5 +1,6 @@
+import { useReducedMotionPreference } from './motion-preferences'
 import { useState } from 'react'
-import { LayoutGroup, motion, useReducedMotion } from 'framer-motion'
+import { LayoutGroup, motion } from 'framer-motion'
 import Logo from './logo'
 import NextLink from 'next/link'
 import {
@@ -22,9 +23,9 @@ import { AnimatedIconButton } from './animated-button'
 const LinkItem = ({ href, path, indicatedPath, onIndicate, children }) => {
   const active = path === href || path.startsWith(`${href}/`)
   const indicated = indicatedPath ? indicatedPath === href : active
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   const inactiveColor = useColorModeValue('gray.700', 'whiteAlpha.900')
-  const accent = useColorModeValue('teal.600', 'teal.200')
+  const accent = useColorModeValue('teal.700', 'teal.200')
 
   return (
     <Link
@@ -32,8 +33,10 @@ const LinkItem = ({ href, path, indicatedPath, onIndicate, children }) => {
       href={href}
       scroll={false}
       position="relative"
-      display="inline-block"
+      display="inline-flex"
+      alignItems="center"
       p={2}
+      minH="44px"
       color={active || indicated ? accent : inactiveColor}
       aria-current={active ? 'page' : undefined}
       onMouseEnter={() => onIndicate(href)}
@@ -74,8 +77,9 @@ const Navbar = ({ path: currentPath, ...props }) => {
     <Box
       position="fixed"
       as="nav"
+      aria-label="Main navigation"
       w="100%"
-      bg={useColorModeValue('#ffffff40', '@20202380')}
+      bg={useColorModeValue('#f0e7dbf5', '#202023f5')}
       style={{ backdropFilter: 'blur(10px)' }}
       zIndex={2}
       {...props}
@@ -89,7 +93,7 @@ const Navbar = ({ path: currentPath, ...props }) => {
         align="center"
         justify="space-between"
       >
-        <Flex align="center" mr={5}>
+        <Flex align="center" mr={{ base: 1, md: 5 }}>
           <Heading as="div" size="lg" letterSpacing={'tighter'}>
             <Logo />
           </Heading>
@@ -128,6 +132,9 @@ const Navbar = ({ path: currentPath, ...props }) => {
             <Link
               href="https://github.com/nerdyspook/nerdyspook-v2"
               isExternal
+              minH="44px"
+              display="inline-flex"
+              alignItems="center"
               p={2}
               onMouseEnter={() => setIndicatedPath(null)}
               onFocus={() => setIndicatedPath(null)}
@@ -137,17 +144,19 @@ const Navbar = ({ path: currentPath, ...props }) => {
           </Stack>
         </LayoutGroup>
 
-        <Box flex={1} align="right">
+        <Flex flex={1} justify="flex-end" align="center" gap={1}>
           <ThemeToggleButton />
-          <Box ml={2} display={{ base: 'inline-block', md: 'none' }}>
+          <Box display={{ base: 'inline-block', md: 'none' }}>
             <Menu isLazy id="navbar-menu">
               <MenuButton
                 as={AnimatedIconButton}
                 icon={<HamburgerIcon />}
                 variant="outline"
-                aria-label="Options"
+                aria-label="Open navigation menu"
+                minW="44px"
+                h="44px"
               />
-              <MenuList>
+              <MenuList sx={{ '[role="menuitem"]': { minHeight: '44px' } }}>
                 <MenuItem as={NextLink} href="/">
                   About
                 </MenuItem>
@@ -168,7 +177,7 @@ const Navbar = ({ path: currentPath, ...props }) => {
               </MenuList>
             </Menu>
           </Box>
-        </Box>
+        </Flex>
       </Container>
     </Box>
   )

@@ -1,9 +1,9 @@
 import NextLink from 'next/link'
+import ProfileImage from '../components/profile-image'
 import {
   Container,
   Box,
   Heading,
-  Image,
   useColorModeValue,
   Text
 } from '@chakra-ui/react'
@@ -71,7 +71,7 @@ const workHistory = [
 const Home = () => {
   const bodyColor = useColorModeValue('gray.700', 'gray.300')
   const mutedColor = useColorModeValue('gray.600', 'gray.400')
-  const accentColor = useColorModeValue('teal.600', 'teal.200')
+  const accentColor = useColorModeValue('teal.700', 'teal.200')
   const introBackground = useColorModeValue('whiteAlpha.500', 'whiteAlpha.200')
   const timelineColor = useColorModeValue('gray.300', 'gray.600')
   const timelineBackground = useColorModeValue('#f0e7db', '#202023')
@@ -96,17 +96,18 @@ const Home = () => {
             ml={{ md: 6 }}
             align="center"
           >
-            <Image
+            <Box
               borderColor="whiteAlpha.800"
               borderWidth={2}
               borderStyle="solid"
               borderRadius="full"
-              maxWidth="100px"
-              maxHeight="100px"
+              w="100px"
+              h="100px"
+              overflow="hidden"
               display="inline-block"
-              src="/images/susanto.jpg"
-              alt="Susanto Mahato"
-            />
+            >
+              <ProfileImage />
+            </Box>
           </Box>
         </Box>
 
@@ -216,7 +217,10 @@ const Home = () => {
               as={NextLink}
               href="/projects"
               rightIcon={<ChevronRightIcon />}
-              colorScheme="teal"
+              bg={useColorModeValue('teal.700', 'teal.200')}
+              color={useColorModeValue('white', 'gray.900')}
+              _hover={{ bg: useColorModeValue('teal.800', 'teal.300') }}
+              minH="44px"
             >
               My Portfolio
             </AnimatedButton>
@@ -243,7 +247,8 @@ const Home = () => {
           </BioSection>
           <BioSection>
             <BioYear>2023</BioYear>
-            Developed, maintained and shipped mobile and web applications at Dukaan. 
+            Developed, maintained and shipped mobile and web applications at
+            Dukaan.
           </BioSection>
         </Section>
 

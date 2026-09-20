@@ -1,14 +1,15 @@
+import { useReducedMotionPreference } from './motion-preferences'
 import { useEffect, useRef } from 'react'
-import { motion, useAnimation, useReducedMotion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion'
 
-const visible = { opacity: 1, y: 0 }
+const visible = { opacity: 1, transform: 'translateY(0px)' }
 
 // Reveal each entry once. Content stays readable before JavaScript runs.
 const ScrollReveal = ({ children }) => {
   const ref = useRef(null)
   const revealed = useRef(false)
   const controls = useAnimation()
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
 
   useEffect(() => {
     if (
@@ -20,7 +21,7 @@ const ScrollReveal = ({ children }) => {
       return
     }
 
-    controls.set({ opacity: 0, y: 12 })
+    controls.set({ opacity: 0, transform: 'translateY(12px)' })
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return
@@ -41,7 +42,15 @@ const ScrollReveal = ({ children }) => {
   }, [controls, reduceMotion])
 
   return (
-    <motion.div ref={ref} initial={false} animate={controls}>
+    <motion.div
+      ref={ref}
+      initial={false}
+      animate={controls}
+      onFocusCapture={() => {
+        revealed.current = true
+        controls.set(visible)
+      }}
+    >
       {children}
     </motion.div>
   )

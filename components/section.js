@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { useReducedMotionPreference } from './motion-preferences'
+import { motion } from 'framer-motion'
 import { chakra, shouldForwardProp } from '@chakra-ui/react'
 
 const StyledDiv = chakra(motion.div, {
@@ -8,7 +9,7 @@ const StyledDiv = chakra(motion.div, {
 })
 
 const Section = ({ children, delay = 0 }) => {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   return (
     <StyledDiv
       initial={false}

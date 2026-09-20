@@ -3,6 +3,7 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Title, ProjectImage, Meta } from '../../components/project'
 import P from '../../components/paragraph'
 import Layout from '../../components/layouts/article'
+import voltHome from '../../public/images/volt-home.png'
 
 const Project = () => {
   return (
@@ -36,10 +37,7 @@ const Project = () => {
           </ListItem>
         </List>
 
-        <ProjectImage
-          src="/images/volt-home.png"
-          alt="Volt shoe ecommerce home page"
-        />
+        <ProjectImage src={voltHome} alt="Volt shoe ecommerce home page" />
       </Container>
     </Layout>
   )
