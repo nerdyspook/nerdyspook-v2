@@ -3,6 +3,8 @@ import Navbar from '../navbar'
 import { Box, Container, Link, useColorModeValue } from '@chakra-ui/react'
 import DogScene from '../dog-scene'
 import PortfolioFooter from '../portfolio-footer'
+import MusicPlayer from '../music-player'
+import { music } from '../../site.config'
 
 const Main = ({ children, router }) => {
   return (
@@ -38,6 +40,7 @@ const Main = ({ children, router }) => {
         {children}
       </Container>
       <PortfolioFooter />
+      {music.src && <MusicPlayer key={music.src} {...music} />}
     </Box>
   )
 }
