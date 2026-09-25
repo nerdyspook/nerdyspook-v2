@@ -34,9 +34,9 @@ running development server after switching package managers.
 ## Background music
 
 The floating music button uses the browser's audio player; no music service or
-extra dependency is required. It currently streams `https://pawann.dev/bg-music.mp3`
-from the reference site, so playback depends on that external URL staying available.
-To replace it with a self-hosted track:
+extra dependency is required. The track is stored in `public/audio/background.mp3`
+and served by this site at `/audio/background.mp3`, without an external audio host.
+To replace the track:
 
 1. Put your audio file in `public/audio/background.mp3` (create the `audio`
    directory if needed). Use a track you own or have permission to use.
@@ -46,9 +46,14 @@ To replace it with a self-hosted track:
 
 An empty `music.src` hides the control. The player sets its volume and attempts
 to play automatically when the page loads. If the browser blocks audible
-autoplay, it stays paused until the visitor clicks play. Playback loops and
-continues during navigation between site pages. Pausing keeps it paused during
-navigation; reloading makes a new autoplay attempt.
+autoplay, it retries on a click, tap, or keypress; the play button also starts it.
+Playback loops and continues during navigation between site pages. Pausing keeps
+it paused during navigation; reloading makes a new autoplay attempt.
+
+The name pronunciation control plays `public/audio/susanto-calm.wav`. While the
+name plays, background music fades down and returns afterward. Pronunciation
+does not start paused music, and clicking it cancels pending automatic retries.
+The shared audio focus provider keeps this behavior consistent across pages.
 
 The audio uses `preload="none"`; the playback attempt starts the download when
 allowed. The animated bars respect reduced-motion preferences. Some mobile

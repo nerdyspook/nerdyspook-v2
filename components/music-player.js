@@ -3,9 +3,15 @@ import { Box, Flex, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import { IoPlay, IoPause } from 'react-icons/io5'
 import { AnimatedIconButton } from './animated-button'
 import { useReducedMotionPreference } from './motion-preferences'
+import { useAudioFocus } from './audio-focus'
+import { createMusicVolumeController } from '../libs/music-volume'
 
 const MusicPlayer = ({ src, volume = 0.2 }) => {
   const audioRef = useRef(null)
+  const playerRef = useRef(null)
+  const stopAutoStartRef = useRef(null)
+  const volumeRef = useRef(null)
+  const { registerMusic, isForegroundActive } = useAudioFocus()
   const [status, setStatus] = useState('paused')
   const [error, setError] = useState('')
   const reduceMotion = useReducedMotionPreference()
@@ -17,30 +23,97 @@ const MusicPlayer = ({ src, volume = 0.2 }) => {
 
   useEffect(() => {
     const audio = audioRef.current
-    audio.volume = Math.min(1, Math.max(0, volume))
+    const controller = createMusicVolumeController(audio)
+    volumeRef.current = controller
+    const unregister = registerMusic({
+      setDucked(value) {
+        if (value) {
+          if (audio.paused) stopAutoStartRef.current?.()
+          controller.activate()
+        }
+        controller.setDucked(value)
+      }
+    })
+    return () => {
+      unregister()
+      controller.dispose()
+      volumeRef.current = null
+    }
+  }, [registerMusic])
+
+  useEffect(() => {
+    volumeRef.current?.setVolume(volume)
   }, [volume])
 
   useEffect(() => {
     const audio = audioRef.current
     let cancelled = false
+    let autoStart = true
+    let pending = false
 
-    // Set the volume above before attempting audible autoplay.
-    // Browsers that require a gesture leave the play button available.
-    audio.play().catch(playbackError => {
-      if (cancelled || playbackError.name === 'AbortError') return
-      if (playbackError.name === 'NotAllowedError') return
-      setStatus('paused')
-      setError('Music could not play. Tap play to try again.')
-    })
+    const stopAutoStart = () => {
+      autoStart = false
+      document.removeEventListener('pointerup', startOnInteraction, true)
+      document.removeEventListener('click', startOnInteraction, true)
+      document.removeEventListener('keydown', startOnInteraction, true)
+    }
+    const tryAutoStart = () => {
+      if (!autoStart || pending) return
+      pending = true
+      // Volume is set before this request. Retry blocked autoplay directly
+      // inside a user gesture, without changing the browser's audio policy.
+      audio
+        .play()
+        .then(stopAutoStart)
+        .catch(playbackError => {
+          if (cancelled || !autoStart || playbackError.name === 'AbortError')
+            return
+          if (playbackError.name === 'NotAllowedError') return
+          stopAutoStart()
+          setStatus('paused')
+          setError('Music could not play. Tap play to try again.')
+        })
+        .finally(() => {
+          pending = false
+        })
+    }
+    function startOnInteraction(event) {
+      // The music button owns its own gesture; starting here would make its
+      // subsequent click immediately pause the audio again.
+      if (playerRef.current?.contains(event.target)) return
+      if (event.target.closest?.('[data-audio-control]')) return
+      if (isForegroundActive()) return
+      if (
+        event.type === 'keydown' &&
+        (event.repeat ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.altKey ||
+          ['Escape', 'Shift', 'Control', 'Alt', 'Meta'].includes(event.key))
+      )
+        return
+      volumeRef.current?.activate()
+      tryAutoStart()
+    }
+
+    stopAutoStartRef.current = stopAutoStart
+    document.addEventListener('pointerup', startOnInteraction, true)
+    document.addEventListener('click', startOnInteraction, true)
+    document.addEventListener('keydown', startOnInteraction, true)
+    tryAutoStart()
 
     return () => {
       cancelled = true
+      stopAutoStart()
+      stopAutoStartRef.current = null
       audio.pause()
     }
-  }, [])
+  }, [isForegroundActive])
 
   const togglePlayback = async () => {
     const audio = audioRef.current
+    // A deliberate play/pause choice takes precedence over automatic retries.
+    stopAutoStartRef.current?.()
     if (!audio.paused) {
       audio.pause()
       return
@@ -48,6 +121,7 @@ const MusicPlayer = ({ src, volume = 0.2 }) => {
 
     setError('')
     setStatus('loading')
+    volumeRef.current?.activate()
     try {
       if (audio.error) audio.load()
       await audio.play()
@@ -61,6 +135,7 @@ const MusicPlayer = ({ src, volume = 0.2 }) => {
 
   return (
     <Box
+      ref={playerRef}
       position="fixed"
       bottom="max(1.5rem, env(safe-area-inset-bottom))"
       right="max(1.5rem, env(safe-area-inset-right))"

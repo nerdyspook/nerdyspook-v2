@@ -54,9 +54,9 @@ const PortfolioFooter = () => {
     <Box
       as="footer"
       id="footer"
-      maxW="container.content"
+      maxW="container.prose"
       mx="auto"
-      px={{ base: 4, md: 6 }}
+      px={{ base: 6, md: 6 }}
       mt={{ base: 10, md: 16 }}
     >
       <Box

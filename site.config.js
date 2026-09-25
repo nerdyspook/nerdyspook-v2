@@ -17,7 +17,7 @@ if (
 // Add a local public path (for example, /audio/background.mp3) or an HTTPS
 // audio URL to show the player. An empty source keeps it hidden.
 const music = {
-  src: 'https://pawann.dev/bg-music.mp3',
+  src: '/audio/background.mp3',
   volume: 0.2
 }
 
