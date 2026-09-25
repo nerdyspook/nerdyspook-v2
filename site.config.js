@@ -14,4 +14,11 @@ if (
   throw new Error('NEXT_PUBLIC_SITE_URL must be an HTTPS origin without a path')
 }
 
-module.exports = { siteUrl: parsedUrl.origin, defaultUrl }
+// Add a local public path (for example, /audio/background.mp3) or an HTTPS
+// audio URL to show the player. An empty source keeps it hidden.
+const music = {
+  src: '/audio/background.mp3',
+  volume: 0.2
+}
+
+module.exports = { siteUrl: parsedUrl.origin, defaultUrl, music }

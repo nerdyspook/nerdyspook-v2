@@ -31,6 +31,29 @@ The pnpm lockfile was imported from the npm lockfile. Use pnpm for project
 installs and do not regenerate `package-lock.json` or `yarn.lock`. Restart any
 running development server after switching package managers.
 
+## Background music
+
+The floating music button uses the browser's audio player; no music service or
+extra dependency is required. The track is stored in `public/audio/background.mp3`
+and served by this site at `/audio/background.mp3`, without an external audio host.
+To replace the track:
+
+1. Put your audio file in `public/audio/background.mp3` (create the `audio`
+   directory if needed). Use a track you own or have permission to use.
+2. Set `music.src` in `site.config.js` to `/audio/background.mp3`. A direct HTTPS
+   audio URL also works; a Spotify or YouTube page URL does not.
+3. Optionally change `music.volume` from `0.2` (20%) to a value between `0` and `1`.
+
+An empty `music.src` hides the control. The player sets its volume and attempts
+to play automatically when the page loads. If the browser blocks audible
+autoplay, it stays paused until the visitor clicks play. Playback loops and
+continues during navigation between site pages. Pausing keeps it paused during
+navigation; reloading makes a new autoplay attempt.
+
+The audio uses `preload="none"`; the playback attempt starts the download when
+allowed. The animated bars respect reduced-motion preferences. Some mobile
+browsers use the device's volume setting instead of the configured volume.
+
 ## CI and hosting
 
 Use Node 24 and the pnpm version pinned in `package.json`, then run:

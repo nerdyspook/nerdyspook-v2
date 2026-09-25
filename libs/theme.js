@@ -4,7 +4,14 @@ import { mode } from '@chakra-ui/theme-tools'
 const styles = {
   global: props => ({
     body: {
-      bg: mode('#f0e7db', '#202023')(props)
+      '--paper-background': mode('#f0e7db', '#202023')(props),
+      backgroundColor: 'var(--paper-background)',
+      // A tiny static tile: no extra DOM or animation loop.
+      backgroundImage: 'url("/art/paper-grid.svg")',
+      backgroundSize: '64px 64px',
+      color: mode('#303a36', '#e7e7e1')(props),
+      lineHeight: 1.7,
+      WebkitFontSmoothing: 'antialiased'
     },
     html: { scrollPaddingTop: '80px' },
     'a:focus-visible, button:focus-visible, [role="button"]:focus-visible': {
@@ -41,6 +48,7 @@ const components = {
 }
 
 const fonts = {
+  body: 'var(--font-body), system-ui, sans-serif',
   heading: 'var(--font-heading), system-ui, sans-serif'
 }
 
@@ -56,7 +64,8 @@ const config = {
 // Shared maximum width for the page, navigation, and footer.
 const sizes = {
   container: {
-    content: '1000px'
+    content: '1000px',
+    prose: '760px'
   }
 }
 
