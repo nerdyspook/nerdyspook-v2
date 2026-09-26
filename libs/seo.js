@@ -7,14 +7,14 @@ export const absoluteUrl = path => new URL(path, `${SITE_URL}/`).href
 // Only published pages belong here. This is also the sitemap's source of truth.
 export const pageMetadata = {
   '/': {
-    title: 'Susanto Mahato — Frontend Engineer | NerdySpook',
+    title: 'Susanto Mahato | Frontend Engineer | NerdySpook',
     description:
       'Susanto Mahato is a frontend engineer in Bengaluru, India, building web and mobile experiences with React, Next.js, and TypeScript. Explore his work and writing.',
     name: 'Susanto Mahato',
     type: 'ProfilePage',
     image: '/og/home.png',
     imageAlt:
-      'Susanto Mahato — Frontend Engineer. Design. Build. Refine. NerdySpook.'
+      'Susanto Mahato, Frontend Engineer. Design. Build. Refine. NerdySpook.'
   },
   '/projects': {
     title: 'Frontend Projects by Susanto Mahato | NerdySpook',
@@ -24,7 +24,7 @@ export const pageMetadata = {
     type: 'CollectionPage',
     image: '/og/projects.png',
     imageAlt:
-      'Frontend projects by Susanto Mahato — interfaces, components, and applications.'
+      'Frontend projects by Susanto Mahato: interfaces, components, and applications.'
   },
   '/blogs': {
     title: 'Writing on Git and CSS by Susanto Mahato | NerdySpook',
@@ -34,17 +34,17 @@ export const pageMetadata = {
     type: 'CollectionPage',
     image: '/og/writing.png',
     imageAlt:
-      'Writing by Susanto Mahato — notes on Git, CSS, and frontend development.'
+      'Writing by Susanto Mahato: notes on Git, CSS, and frontend development.'
   },
   '/projects/volt': {
-    title: 'Volt — Shoe Ecommerce Project | NerdySpook',
+    title: 'Volt | Shoe Ecommerce Project | NerdySpook',
     description:
       'Volt is a shoe ecommerce app by Susanto Mahato with search, filters, and user authentication, built with React, React Router, Kal-UI, and SASS.',
     name: 'Volt',
     type: 'WebPage',
     image: '/og/volt.png',
     imageAlt:
-      'Volt — a shoe ecommerce project by Susanto Mahato. Search, filters, and authentication.'
+      'Volt, a shoe ecommerce project by Susanto Mahato. Search, filters, and authentication.'
   }
 }
 
